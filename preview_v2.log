@@ -1,0 +1,125 @@
+
+> temp_app@0.1.0 preview
+> npx serve -l 3003 out
+
+ INFO  Accepting connections at http://localhost:3003
+ HTTP  12/15/2025 10:44:51 AM ::1 GET /
+ HTTP  12/15/2025 10:44:51 AM ::1 Returned 200 in 35 ms
+ HTTP  12/15/2025 10:44:52 AM ::1 GET /_next/static/chunks/ff55d7e5fb85fe77.css
+ HTTP  12/15/2025 10:44:52 AM ::1 GET /_next/static/media/68d403cf9f2c68c5-s.p.f9f15f61.woff2
+ HTTP  12/15/2025 10:44:52 AM ::1 GET /_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2
+ HTTP  12/15/2025 10:44:52 AM ::1 GET /_next/static/media/fe36e9937cd078a1-s.p.3de7a689.woff2
+ HTTP  12/15/2025 10:44:52 AM ::1 GET /_next/static/chunks/cbd55ab9639e1e66.js
+ HTTP  12/15/2025 10:44:52 AM ::1 GET /logo.svg
+ HTTP  12/15/2025 10:44:52 AM ::1 Returned 304 in 60 ms
+ HTTP  12/15/2025 10:44:52 AM ::1 Returned 304 in 61 ms
+ HTTP  12/15/2025 10:44:52 AM ::1 Returned 200 in 76 ms
+ HTTP  12/15/2025 10:44:52 AM ::1 Returned 304 in 73 ms
+ HTTP  12/15/2025 10:44:52 AM ::1 Returned 200 in 71 ms
+ HTTP  12/15/2025 10:44:52 AM ::1 Returned 304 in 71 ms
+ HTTP  12/15/2025 10:44:52 AM ::1 GET /_next/static/chunks/061a236f209ec233.js
+ HTTP  12/15/2025 10:44:52 AM ::1 GET /_next/static/chunks/834800a6b130715c.js
+ HTTP  12/15/2025 10:44:52 AM ::1 GET /_next/static/chunks/e241394cca6a88a3.js
+ HTTP  12/15/2025 10:44:52 AM ::1 GET /_next/static/chunks/turbopack-9fa9f0e0b73fabef.js
+ HTTP  12/15/2025 10:44:52 AM ::1 GET /_next/static/chunks/ff1a16fafef87110.js
+ HTTP  12/15/2025 10:44:52 AM ::1 Returned 200 in 7 ms
+ HTTP  12/15/2025 10:44:52 AM ::1 Returned 200 in 16 ms
+ HTTP  12/15/2025 10:44:52 AM ::1 GET /_next/static/chunks/247eb132b7f7b574.js
+ HTTP  12/15/2025 10:44:52 AM ::1 Returned 200 in 15 ms
+ HTTP  12/15/2025 10:44:52 AM ::1 Returned 304 in 5 ms
+ HTTP  12/15/2025 10:44:52 AM ::1 Returned 200 in 22 ms
+ HTTP  12/15/2025 10:44:52 AM ::1 GET /_next/static/chunks/eead33dfc831f870.js
+ HTTP  12/15/2025 10:44:52 AM ::1 Returned 304 in 10 ms
+ HTTP  12/15/2025 10:44:52 AM ::1 Returned 200 in 12 ms
+ HTTP  12/15/2025 10:44:53 AM ::1 GET /favicon.ico?favicon.0b3bf435.ico
+ HTTP  12/15/2025 10:44:53 AM ::1 Returned 304 in 1 ms
+ HTTP  12/15/2025 12:33:08 PM ::1 GET /
+ HTTP  12/15/2025 12:33:08 PM ::1 Returned 304 in 37 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /_next/static/media/68d403cf9f2c68c5-s.p.f9f15f61.woff2
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 14 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /_next/static/chunks/ff55d7e5fb85fe77.css
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 15 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /_next/static/media/fe36e9937cd078a1-s.p.3de7a689.woff2
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /_next/static/chunks/061a236f209ec233.js
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 5 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 5 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /logo.svg
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /_next/static/chunks/834800a6b130715c.js
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 7 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /_next/static/chunks/e241394cca6a88a3.js
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /_next/static/chunks/cbd55ab9639e1e66.js
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 15 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 17 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /_next/static/chunks/turbopack-9fa9f0e0b73fabef.js
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /_next/static/chunks/ff1a16fafef87110.js
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 80 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 94 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /_next/static/chunks/247eb132b7f7b574.js
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /_next/static/chunks/eead33dfc831f870.js
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 30 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 29 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 5 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 9 ms
+ HTTP  12/15/2025 12:33:09 PM ::1 GET /favicon.ico?favicon.0b3bf435.ico
+ HTTP  12/15/2025 12:33:09 PM ::1 Returned 304 in 33 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 1 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /_next/static/media/68d403cf9f2c68c5-s.p.f9f15f61.woff2
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /_next/static/chunks/ff55d7e5fb85fe77.css
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /_next/static/media/fe36e9937cd078a1-s.p.3de7a689.woff2
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /logo.svg
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /_next/static/chunks/cbd55ab9639e1e66.js
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 9 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 12 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 12 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 10 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 10 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /_next/static/chunks/061a236f209ec233.js
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 22 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /_next/static/chunks/834800a6b130715c.js
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /_next/static/chunks/e241394cca6a88a3.js
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /_next/static/chunks/turbopack-9fa9f0e0b73fabef.js
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /_next/static/chunks/ff1a16fafef87110.js
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /_next/static/chunks/247eb132b7f7b574.js
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 4 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 3 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 3 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 17 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 18 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /_next/static/chunks/eead33dfc831f870.js
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 40 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 29 ms
+ HTTP  12/15/2025 12:33:14 PM ::1 GET /favicon.ico?favicon.0b3bf435.ico
+ HTTP  12/15/2025 12:33:14 PM ::1 Returned 304 in 0 ms
+ HTTP  12/15/2025 12:34:24 PM ::1 GET /
+ HTTP  12/15/2025 12:34:24 PM ::1 Returned 304 in 30 ms
+ HTTP  12/15/2025 12:34:24 PM ::1 GET /_next/static/media/68d403cf9f2c68c5-s.p.f9f15f61.woff2
+ HTTP  12/15/2025 12:34:24 PM ::1 GET /_next/static/chunks/ff55d7e5fb85fe77.css
+ HTTP  12/15/2025 12:34:24 PM ::1 Returned 304 in 13 ms
+ HTTP  12/15/2025 12:34:24 PM ::1 Returned 304 in 25 ms
+ HTTP  12/15/2025 12:34:25 PM ::1 GET /_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2
+ HTTP  12/15/2025 12:34:25 PM ::1 GET /_next/static/chunks/061a236f209ec233.js
+ HTTP  12/15/2025 12:34:25 PM ::1 Returned 304 in 11 ms
+ HTTP  12/15/2025 12:34:25 PM ::1 Returned 304 in 13 ms
+ HTTP  12/15/2025 12:34:25 PM ::1 GET /_next/static/chunks/834800a6b130715c.js
+ HTTP  12/15/2025 12:34:25 PM ::1 GET /_next/static/media/fe36e9937cd078a1-s.p.3de7a689.woff2
+ HTTP  12/15/2025 12:34:25 PM ::1 GET /_next/static/chunks/turbopack-9fa9f0e0b73fabef.js
+ HTTP  12/15/2025 12:34:25 PM ::1 GET /_next/static/chunks/e241394cca6a88a3.js
+ HTTP  12/15/2025 12:34:25 PM ::1 Returned 304 in 3 ms
+ HTTP  12/15/2025 12:34:25 PM ::1 Returned 304 in 8 ms
+ HTTP  12/15/2025 12:34:25 PM ::1 Returned 304 in 12 ms
+ HTTP  12/15/2025 12:34:25 PM ::1 Returned 304 in 13 ms
+ HTTP  12/15/2025 12:34:25 PM ::1 GET /logo.svg
+ HTTP  12/15/2025 12:34:25 PM ::1 GET /_next/static/chunks/eead33dfc831f870.js
+ HTTP  12/15/2025 12:34:25 PM ::1 Returned 304 in 1 ms
+ HTTP  12/15/2025 12:34:25 PM ::1 Returned 304 in 10 ms
+ HTTP  12/15/2025 12:34:25 PM ::1 GET /_next/static/chunks/ff1a16fafef87110.js
+ HTTP  12/15/2025 12:34:25 PM ::1 GET /_next/static/chunks/247eb132b7f7b574.js
+ HTTP  12/15/2025 12:34:25 PM ::1 GET /_next/static/chunks/cbd55ab9639e1e66.js
+ HTTP  12/15/2025 12:34:25 PM ::1 Returned 304 in 51 ms
+ HTTP  12/15/2025 12:34:25 PM ::1 Returned 304 in 49 ms
+ HTTP  12/15/2025 12:34:25 PM ::1 Returned 304 in 53 ms
+ HTTP  12/15/2025 12:34:25 PM ::1 GET /favicon.ico?favicon.0b3bf435.ico
+ HTTP  12/15/2025 12:34:25 PM ::1 Returned 304 in 1 ms

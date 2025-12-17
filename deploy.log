@@ -1,0 +1,29 @@
+Starting Deployment...
+Cleaning...
+Building...
+   ▲ Next.js 16.0.8 (Turbopack)
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 76s
+   Running TypeScript ...
+   Collecting page data using 3 workers ...
+   Generating static pages using 3 workers (0/6) ...
+   Generating static pages using 3 workers (1/6) 
+   Generating static pages using 3 workers (2/6) 
+   Generating static pages using 3 workers (4/6) 
+ ✓ Generating static pages using 3 workers (6/6) in 17.4s
+   Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+└ ○ /exhibitions
+
+
+○  (Static)  prerendered as static content
+
+Build Status: 0
+Serving on 3005...
+Server PID: 37613
+Done.

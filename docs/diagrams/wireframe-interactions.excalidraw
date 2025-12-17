@@ -1,0 +1,109 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw.com",
+  "elements": [
+    {
+      "id": "text-container",
+      "type": "rectangle",
+      "x": 100,
+      "y": 100,
+      "width": 600,
+      "height": 400,
+      "strokeColor": "transparent",
+      "backgroundColor": "#09090b",
+      "fillStyle": "solid",
+      "strokeWidth": 0,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "groupIds": []
+    },
+    {
+      "id": "paragraph-text",
+      "type": "text",
+      "x": 120,
+      "y": 120,
+      "width": 560,
+      "height": 100,
+      "text": "The implementation of second-order cybernetics requires a fundamental shift in how we perceive the observer relative to the system. As stated by von Foerster",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "strokeColor": "#e4e4e7",
+      "groupIds": []
+    },
+    {
+      "id": "citation-link",
+      "type": "text",
+      "x": 480,
+      "y": 170, // Approximating position after "von Foerster"
+      "width": 24,
+      "height": 20,
+      "text": "[1]",
+      "fontSize": 14,
+      "fontFamily": 3,
+      "strokeColor": "#d97706",
+      "groupIds": []
+    },
+    {
+      "id": "popover-card",
+      "type": "rectangle",
+      "x": 460,
+      "y": 60, // Above the link
+      "width": 280,
+      "height": 100,
+      "strokeColor": "#27272a",
+      "backgroundColor": "#18181b",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "roundness": { "type": 3 },
+      "groupIds": ["popover-group"]
+    },
+    {
+      "id": "popover-title",
+      "type": "text",
+      "x": 475,
+      "y": 75,
+      "width": 250,
+      "height": 20,
+      "text": "Understanding Understanding",
+      "fontSize": 16,
+      "fontFamily": 2,
+      "strokeColor": "#e4e4e7",
+      "groupIds": ["popover-group"]
+    },
+     {
+      "id": "popover-meta",
+      "type": "text",
+      "x": 475,
+      "y": 100,
+      "width": 250,
+      "height": 16,
+      "text": "Heinz von Foerster (2003)",
+      "fontSize": 12,
+      "fontFamily": 1,
+      "strokeColor": "#a1a1aa",
+      "groupIds": ["popover-group"]
+    },
+    {
+      "id": "arrow-indicator",
+      "type": "arrow",
+      "x": 500,
+      "y": 160,
+      "width": 0,
+      "height": -10,
+      "strokeColor": "#d97706",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "points": [[0,0], [0, -40]] // Pointing from link to popover
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#000000"
+  }
+}

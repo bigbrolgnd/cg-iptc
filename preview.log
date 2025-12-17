@@ -1,0 +1,43 @@
+
+> temp_app@0.1.0 preview
+> npx serve -l 3003 out
+
+ INFO  Accepting connections at http://localhost:3003
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 38 ms
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /_next/static/media/68d403cf9f2c68c5-s.p.f9f15f61.woff2
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /_next/static/chunks/67d8ac0b440609b8.css
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /_next/static/chunks/9f4818493ac24989.css
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /_next/static/media/fe36e9937cd078a1-s.p.3de7a689.woff2
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 164 ms
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 167 ms
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /logo.svg
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 171 ms
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 159 ms
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /_next/static/chunks/9bbe87b3dd8dae73.js
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /_next/static/chunks/11e2f919b6d1e98c.js
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 36 ms
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 32 ms
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /_next/static/chunks/01787aef0bc207ac.js
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /_next/static/chunks/turbopack-3a5e053d40523346.js
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /_next/static/chunks/ff1a16fafef87110.js
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 37 ms
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /_next/static/chunks/247eb132b7f7b574.js
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 32 ms
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 35 ms
+ HTTP  12/15/2025 10:24:06 AM ::1 GET /_next/static/chunks/e2a73921ef9e3945.js
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 42 ms
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 70 ms
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 135 ms
+ HTTP  12/15/2025 10:24:06 AM ::1 Returned 200 in 520 ms
+ HTTP  12/15/2025 10:24:07 AM ::1 GET /favicon.ico?favicon.0b3bf435.ico
+ HTTP  12/15/2025 10:24:07 AM ::1 Returned 200 in 71 ms
+ HTTP  12/15/2025 10:24:08 AM ::1 GET /favicon.ico?favicon.0b3bf435.ico
+ HTTP  12/15/2025 10:24:08 AM ::1 Returned 200 in 1 ms
+ HTTP  12/15/2025 10:25:16 AM ::1 GET /_next/static/chunks/67d8ac0b440609b8.css
+ HTTP  12/15/2025 10:25:16 AM ::1 GET /_next/static/chunks/9f4818493ac24989.css
+ HTTP  12/15/2025 10:25:16 AM ::1 Returned 304 in 47 ms
+ HTTP  12/15/2025 10:25:16 AM ::1 Returned 304 in 91 ms
+ HTTP  12/15/2025 10:25:16 AM ::1 GET /.well-known/appspecific/com.chrome.devtools.json
+ HTTP  12/15/2025 10:25:16 AM ::1 Returned 404 in 23 ms

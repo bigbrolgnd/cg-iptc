@@ -1,0 +1,56 @@
+# generated: 2025-12-10
+# project: cg-iptc
+# project_key: cg-iptc
+# tracking_system: file-system
+# story_location: /Users/brotherlegend/Documents/GitHub/cg-iptc/docs/sprint-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - drafted: Story file created in stories folder
+#   - ready-for-dev: Draft approved, ready for development
+#   - in-progress: Developer actively working on implementation
+#   - review: Implementation complete, ready for review
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - completed: Retrospective has been done by *retrospective
+#
+# WORKFLOW NOTES:
+# ===============
+# - Mark epic as 'in-progress' when starting work on its first story
+# - SM typically drafts next story ONLY after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then Dev runs code-review (fresh context, ideally different LLM)
+
+generated: 2025-12-10
+project: cg-iptc
+project_key: cg-iptc
+tracking_system: file-system
+story_location: "/Users/brotherlegend/Documents/GitHub/cg-iptc/docs/sprint-artifacts"
+
+development_status:
+  epic-1: in-progress
+  1-1-project-skeleton-layout-shell: done
+  1-2-substack-feed-integration-hero: done
+  1-3-article-archive-navigation: done
+  1-4-production-build-seo: backlog
+  epic-1-retrospective: optional
+
+  epic-2: backlog
+  2-1-graph-engine-core-visx: backlog
+  2-2-node-interaction-metadata: backlog
+  2-3-visualization-modes-local-vs-global: backlog
+  epic-2-retrospective: optional
+
+  epic-3: backlog
+  3-1-substack-conversion: backlog
+  3-2-smart-citation-tool: backlog
+  3-3-asset-downloads-pdf: backlog
+  epic-3-retrospective: optional
