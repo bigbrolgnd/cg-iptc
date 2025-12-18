@@ -1,8 +1,9 @@
 1:"$Sreact.fragment"
-2:I[49752,["/_next/static/chunks/ffdacc35bb1bce43.js"],"LayoutShell"]
-3:I[12820,["/_next/static/chunks/ffdacc35bb1bce43.js"],"ErrorBoundary"]
-4:I[23203,["/_next/static/chunks/ffdacc35bb1bce43.js"],"PdfViewer"]
-5:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/247eb132b7f7b574.js"],"OutletBoundary"]
-6:"$Sreact.suspense"
-0:{"buildId":"-QRIMzut0MhbkmgZRK36e","rsc":["$","$1","c",{"children":[["$","$L2",null,{"children":["$","$L3",null,{"fallback":["$","div",null,{"className":"flex flex-col items-center justify-center gap-6 mx-auto max-w-2xl py-16 px-6 text-center","children":[["$","div",null,{"className":"p-4 rounded-full bg-zinc-100 border border-zinc-200","children":["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-file-question-mark w-12 h-12 text-zinc-400","aria-hidden":"true","children":[["$","path","1oefj6",{"d":"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"}],["$","path","p32p05",{"d":"M12 17h.01"}],["$","path","mhlwft",{"d":"M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"}],"$undefined"]}]}],["$","header",null,{"className":"space-y-2","children":[["$","h2",null,{"className":"text-2xl font-serif font-bold text-zinc-900","children":"Something went wrong"}],["$","p",null,{"className":"text-zinc-500 max-w-md","children":"We couldn't load the exhibition PDF. Please try refreshing."}]]}]]}],"children":["$","$L4",null,{"pdfUrl":"/exhibitions/CG-IPTC_Exhibit_The_Technologization_of_Counterinsurgency_Final.pdf"}]}]}],[["$","script","script-0",{"src":"/_next/static/chunks/ffdacc35bb1bce43.js","async":true}]],["$","$L5",null,{"children":["$","$6",null,{"name":"Next.MetadataOutlet","children":"$@7"}]}]]}],"loading":null,"isPartial":false}
-7:null
+2:I[10696,["/_next/static/chunks/47f9f3e519f7f29f.js","/_next/static/chunks/2ada8f8a6c50c7d9.js"],"ClientPageRoot"]
+3:I[12210,["/_next/static/chunks/5f2a214a4aa63064.js","/_next/static/chunks/b19fcc387f7e49ae.js"],"default"]
+6:I[71371,["/_next/static/chunks/47f9f3e519f7f29f.js","/_next/static/chunks/2ada8f8a6c50c7d9.js"],"OutletBoundary"]
+7:"$Sreact.suspense"
+0:{"buildId":"9xnxOSGu60BzUnt2wWWUk","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/_next/static/chunks/5f2a214a4aa63064.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/b19fcc387f7e49ae.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+4:{}
+5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
+8:null

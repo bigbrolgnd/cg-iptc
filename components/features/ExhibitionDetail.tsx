@@ -1,26 +1,66 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, AlertCircle, Loader2 } from "lucide-react";
 
-// Set up the worker
-// This is required by react-pdf
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+// Set up the worker - pdfjs-dist 5.x uses .mjs extension
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface ExhibitionDetailProps {
   pdfUrl: string;
 }
 
+function LoadingSpinner() {
+  return (
+    <div className="flex flex-col items-center justify-center py-16 gap-4">
+      <Loader2 className="w-8 h-8 text-zinc-400 animate-spin" aria-hidden="true" />
+      <p className="text-zinc-500 text-sm">Loading exhibition...</p>
+    </div>
+  );
+}
+
+function ErrorDisplay({ message }: { message: string }) {
+  return (
+    <div className="flex flex-col items-center justify-center py-16 gap-4 text-center px-4">
+      <AlertCircle className="w-10 h-10 text-red-500" aria-hidden="true" />
+      <div>
+        <p className="text-zinc-900 font-semibold">Failed to load PDF</p>
+        <p className="text-zinc-500 text-sm mt-1">{message}</p>
+      </div>
+    </div>
+  );
+}
+
 export function ExhibitionDetail({ pdfUrl }: ExhibitionDetailProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
+  const [error, setError] = useState<string | null>(null);
+  const [containerWidth, setContainerWidth] = useState(800);
+
+  // Calculate responsive width based on container
+  const updateWidth = useCallback(() => {
+    const maxWidth = Math.min(window.innerWidth - 32, 800); // 16px padding on each side
+    setContainerWidth(maxWidth);
+  }, []);
+
+  useEffect(() => {
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, [updateWidth]);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
     setPageNumber(1);
+    setError(null);
+  }
+
+  function onDocumentLoadError(err: Error) {
+    setError(err.message || "Unable to load the PDF document. Please try again later.");
+    setNumPages(null);
   }
 
   function changePage(offset: number) {
@@ -35,15 +75,27 @@ export function ExhibitionDetail({ pdfUrl }: ExhibitionDetailProps) {
     changePage(1);
   }
 
+  if (error) {
+    return <ErrorDisplay message={error} />;
+  }
+
   return (
     <div className="w-full flex flex-col items-center gap-4 py-8">
-      <div className="w-full max-w-4xl mx-auto">
+      <div className="w-full max-w-4xl mx-auto overflow-hidden">
         <Document
           file={pdfUrl}
           onLoadSuccess={onDocumentLoadSuccess}
+          onLoadError={onDocumentLoadError}
+          loading={<LoadingSpinner />}
+          error={<ErrorDisplay message="The PDF could not be loaded." />}
           className="flex justify-center"
         >
-          <Page pageNumber={pageNumber} width={800} />
+          <Page
+            pageNumber={pageNumber}
+            width={containerWidth}
+            loading={<LoadingSpinner />}
+            error={<ErrorDisplay message="This page could not be rendered." />}
+          />
         </Document>
       </div>
 
@@ -53,23 +105,27 @@ export function ExhibitionDetail({ pdfUrl }: ExhibitionDetailProps) {
             type="button"
             disabled={pageNumber <= 1}
             onClick={previousPage}
-            className="p-2 rounded-full bg-zinc-100 hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Go to previous page"
+            className="p-2 rounded-full bg-zinc-100 hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-6 h-6" aria-hidden="true" />
           </button>
-          <p>
-            Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
+          <p className="text-sm text-zinc-600 min-w-[100px] text-center">
+            Page {pageNumber} of {numPages}
           </p>
           <button
             type="button"
             disabled={pageNumber >= numPages}
             onClick={nextPage}
-            className="p-2 rounded-full bg-zinc-100 hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Go to next page"
+            className="p-2 rounded-full bg-zinc-100 hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-6 h-6" aria-hidden="true" />
           </button>
         </div>
       )}
     </div>
   );
 }
+
+ExhibitionDetail.displayName = "ExhibitionDetail";

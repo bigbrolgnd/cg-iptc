@@ -30,7 +30,7 @@ const oswald = Oswald({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://cg-iptc.org"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://cg-iptc.org"),
   title: {
     template: "%s | Clay-Gilmore Institute",
     default: "Clay-Gilmore Institute for Philosophy, Technology, and Counterinsurgency",

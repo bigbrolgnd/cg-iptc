@@ -19,3 +19,18 @@ So that it ranks well and loads instantly for users (NFR1, NFR9).
 - Verify `metadata` export in `layout.tsx` and individual pages.
 - Check font loading strategies.
 - Verify image optimization strategy.
+
+## Dev Agent Record
+
+### File List
+- `Dockerfile` - Cleaned up duplicate expose ports.
+- `app/layout.tsx` - Removed hardcoded metadata base URL.
+- `tests/seo.test.ts` - Added unit tests for static SEO metadata configuration.
+- `next.config.ts` - Maintained `unoptimized: true` for SSG compatibility (noted in review).
+
+### Change Log
+- **2025-12-18 (Code Review)**:
+    - Fixed duplicate `EXPOSE` instruction in Dockerfile.
+    - Parameterized `metadataBase` in `layout.tsx` using `NEXT_PUBLIC_BASE_URL`.
+    - Added `tests/seo.test.ts` to verify critical OpenGraph and Twitter metadata tags.
+    - Verified `unoptimized: true` in `next.config.ts` is required for current SSG architecture without external loader.
