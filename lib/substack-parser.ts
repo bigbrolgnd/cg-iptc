@@ -3,7 +3,7 @@ import DOMPurify from 'isomorphic-dompurify';
 import { JSDOM } from 'jsdom';
 
 // Default Substack feed URL - can be overridden
-const DEFAULT_FEED_URL = 'https://discourseonanticolonialism.substack.com/feed';
+const DEFAULT_FEED_URL = 'https://mironjclaygilmore.substack.com/feed';
 
 /**
  * Fetches the Substack RSS feed from the given URL.

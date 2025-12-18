@@ -28,14 +28,14 @@ function AboutSection({
         <h3 className="text-sm uppercase font-semibold tracking-widest text-red-700 mb-3 text-center">
           {title}
         </h3>
-        <h2 style={{ fontFamily: 'var(--font-lexend)' }} className="text-3xl md:text-4xl font-bold text-zinc-900 tracking-tight text-center" dangerouslySetInnerHTML={{ __html: heading }} />
+        <h2 style={{ fontFamily: 'var(--font-oswald)' }} className="text-3xl md:text-4xl font-bold text-zinc-900 tracking-tight text-center" dangerouslySetInnerHTML={{ __html: heading }} />
       </header>
 
       {/* Content */}
       <div className="px-6 mt-4">
         {/* Standard centering with max-width for readability */}
         <div className="prose prose-lg max-w-3xl mx-auto text-left px-[20px]">
-            {children}
+          {children}
         </div>
       </div>
     </section>
@@ -63,15 +63,15 @@ export function AboutPage() {
         title="Meet the Founder"
         heading="Dr. Miron J. Clay-Gilmore"
         imageElement={
-            <div className="relative w-48 h-48 lg:w-64 lg:h-64 rounded-full overflow-hidden shadow-lg mx-auto">
-                <Image
-                    src="https://framerusercontent.com/images/IYGRDaPWovSYixFsHGMAzxF0vyo.jpg"
-                    alt="Dr. Miron J. Clay-Gilmore"
-                    layout="fill"
-                    objectFit="cover"
-                    className="grayscale"
-                />
-            </div>
+          <div className="relative w-48 h-48 lg:w-64 lg:h-64 rounded-full overflow-hidden shadow-lg mx-auto">
+            <Image
+              src="https://framerusercontent.com/images/IYGRDaPWovSYixFsHGMAzxF0vyo.jpg"
+              alt="Dr. Miron J. Clay-Gilmore"
+              layout="fill"
+              objectFit="cover"
+              className="grayscale"
+            />
+          </div>
         }
       >
         <p>

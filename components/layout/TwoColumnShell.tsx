@@ -17,7 +17,7 @@ export function TwoColumnShell({
 
                 {/* Left Column: Conditionally render */}
                 {leftPanel && (
-                    <div className="hidden md:block md:col-span-2">
+                    <div className="hidden md:block md:col-span-2 pr-[10px]">
                         <div className="h-full">
                             {leftPanel}
                         </div>

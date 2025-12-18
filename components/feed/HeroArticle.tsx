@@ -129,7 +129,7 @@ export function HeroArticle({ article }: HeroArticleProps) {
 
   return (
     <article
-      className="flex flex-col gap-4 mx-auto w-full max-w-none py-8"
+      className="flex flex-col gap-4 mx-auto w-full max-w-none py-8 md:ml-[15px]"
       aria-labelledby="hero-article-title"
     >
       {/* Header: Title - offset left on desktop to center on full page */}
@@ -191,7 +191,7 @@ export function HeroArticle({ article }: HeroArticleProps) {
           {/* Content Area */}
           <div
             id="article-content"
-            className={`relative overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[5000px] opacity-100' : 'max-h-32 opacity-100'
+            className={`relative overflow-hidden transition-all duration-500 ease-in-out md:pr-[8.33%] ${isExpanded ? 'max-h-[5000px] opacity-100' : 'max-h-32 opacity-100'
               }`}
           >
             {/* Gradient Mask for collapsed state */}

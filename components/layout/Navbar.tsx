@@ -9,7 +9,7 @@ export function Navbar({ pathname }: NavbarProps) {
         { label: "EXHIBITIONS", href: "/exhibitions" },
         { label: "PODCASTS", href: "https://youtube.com/playlist?list=PL3yt4Dw2i5BgJ-9UpC4WPX1OribA1DKYT&si=Dpmoer6TR3Newt8x" },
         { label: "UPDATES", href: "#" },
-        { label: "NEWSLETTER", href: "https://substack.com/@mironjclaygilmore?utm_campaign=profile&utm_medium=profile-page" },
+        { label: "NEWSLETTER", href: "https://mironjclaygilmore.substack.com" },
         { label: "ABOUT US", href: "/about" },
     ];
 
@@ -32,7 +32,7 @@ export function Navbar({ pathname }: NavbarProps) {
                         />
                         {/* Title - controlled REM sizes: > 1.875rem(article mobile) and > 2.25rem(article desktop) */}
                         <span
-                            style={{ fontFamily: 'var(--font-lexend)' }}
+                            style={{ fontFamily: 'var(--font-oswald)' }}
                             className="text-[2.25rem] lg:text-[2.75rem] font-semibold tracking-tight text-black text-center leading-tight order-2"
                         >
                             Clay-Gilmore Institute for Philosophy,<br />

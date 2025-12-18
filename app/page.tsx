@@ -5,6 +5,26 @@ import { EmptyState } from "@/components/feed/EmptyState";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { fetchSubstackFeed } from "@/lib/substack-parser";
 import { SubstackItem } from "@/types/substack";
+import { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const feed = await fetchSubstackFeed();
+    if (feed && feed.items.length > 0) {
+      const latest = feed.items[0];
+      return {
+        title: latest.title,
+        description: latest.summary || "Latest updates from the Clay-Gilmore Institute.",
+        openGraph: {
+          images: latest.image ? [latest.image] : ["/og-image.png"],
+        }
+      };
+    }
+  } catch (e) {
+    // console.error("Metadata fetch failed", e);
+  }
+  return {};
+}
 
 export default async function Home() {
   // Fetch full feed at build time (SSG)
