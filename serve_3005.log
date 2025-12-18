@@ -386,3 +386,4 @@
  HTTP  12/17/2025 1:15:23 PM ::1 Returned 304 in 19 ms
  HTTP  12/17/2025 1:15:23 PM ::1 Returned 304 in 12 ms
  HTTP  12/17/2025 1:15:23 PM ::1 Returned 304 in 13 ms
+ INFO  Accepting connections at http://localhost:51718

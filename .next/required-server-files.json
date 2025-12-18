@@ -100,7 +100,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "/opt/docker-stack",
+    "outputFileTracingRoot": "/Users/brotherlegend/Documents/GitHub/cg-iptc",
     "cacheComponents": false,
     "cacheLife": {
       "default": {
@@ -158,7 +158,7 @@
       "proxyPrefetch": "flexible",
       "optimisticClientCache": true,
       "manualClientBasePath": false,
-      "cpus": 7,
+      "cpus": 3,
       "memoryBasedWorkersCount": false,
       "imgOptConcurrency": null,
       "imgOptTimeoutInSeconds": 7,
@@ -290,12 +290,12 @@
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.ts",
     "turbopack": {
-      "root": "/opt/docker-stack"
+      "root": "/Users/brotherlegend/Documents/GitHub/cg-iptc"
     },
     "distDirRoot": ".next"
   },
-  "appDir": "/opt/docker-stack/cg-iptc",
-  "relativeAppDir": "cg-iptc",
+  "appDir": "/Users/brotherlegend/Documents/GitHub/cg-iptc",
+  "relativeAppDir": "",
   "files": [
     ".next/routes-manifest.json",
     ".next/server/pages-manifest.json",
