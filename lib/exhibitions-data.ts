@@ -38,7 +38,7 @@ export const exhibitions: Exhibition[] = [
         id: "series-two",
         title: "Series Two",
         description: "Curatorial Statement and analysis of Detroit Facial Recognition Probes.",
-        assetUrl: "/exhibitions/CG-IPTC_Curatorial_Statement_Detroit_Facial_Recognition.pdf",
+        assetUrl: "/CG-IPTC_Curatorial_Statement.pdf",
         assetType: "pdf"
       }
     ]

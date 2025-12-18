@@ -96,17 +96,22 @@ export function ExhibitionSelector({
   if (exhibitions.length <= 1) {
     return (
       <div className="w-full max-w-4xl mx-auto mb-6">
-        <div className="flex items-center gap-3 p-4 bg-zinc-50 border border-zinc-200 rounded-lg">
-          <FileText className="w-5 h-5 text-zinc-600 flex-shrink-0" aria-hidden="true" />
+        <a
+          href={selectedExhibition.pdfUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 p-4 bg-zinc-50 border border-zinc-200 rounded-lg hover:bg-zinc-100 hover:border-zinc-300 transition-all cursor-pointer group"
+        >
+          <FileText className="w-5 h-5 text-zinc-600 group-hover:text-zinc-900 transition-colors flex-shrink-0" aria-hidden="true" />
           <div>
-            <h2 className="font-semibold text-zinc-900 font-serif text-lg">
+            <h2 className="font-semibold text-zinc-900 font-serif text-lg group-hover:underline decoration-zinc-400 underline-offset-4">
               {selectedExhibition.title}
             </h2>
             {selectedExhibition.subtitle && (
               <p className="text-sm text-zinc-600">{selectedExhibition.subtitle}</p>
             )}
           </div>
-        </div>
+        </a>
       </div>
     );
   }
