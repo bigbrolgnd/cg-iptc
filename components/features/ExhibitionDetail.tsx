@@ -11,6 +11,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 
 interface ExhibitionDetailProps {
   pdfUrl: string;
+  assetType?: 'pdf' | 'image';
 }
 
 function LoadingSpinner() {
@@ -27,14 +28,14 @@ function ErrorDisplay({ message }: { message: string }) {
     <div className="flex flex-col items-center justify-center py-16 gap-4 text-center px-4">
       <AlertCircle className="w-10 h-10 text-red-500" aria-hidden="true" />
       <div>
-        <p className="text-zinc-900 font-semibold">Failed to load PDF</p>
+        <p className="text-zinc-900 font-semibold">Failed to load content</p>
         <p className="text-zinc-500 text-sm mt-1">{message}</p>
       </div>
     </div>
   );
 }
 
-export function ExhibitionDetail({ pdfUrl }: ExhibitionDetailProps) {
+export function ExhibitionDetail({ pdfUrl, assetType = 'pdf' }: ExhibitionDetailProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [error, setError] = useState<string | null>(null);
@@ -77,6 +78,22 @@ export function ExhibitionDetail({ pdfUrl }: ExhibitionDetailProps) {
 
   if (error) {
     return <ErrorDisplay message={error} />;
+  }
+
+  if (assetType === 'image') {
+    return (
+      <div className="w-full flex flex-col items-center gap-4 py-8">
+        <div className="w-full max-w-4xl mx-auto overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={pdfUrl}
+            alt="Exhibition content"
+            className="w-full h-auto object-contain"
+            onError={() => setError("Unable to load the image.")}
+          />
+        </div>
+      </div>
+    );
   }
 
   return (
