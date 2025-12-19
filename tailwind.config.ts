@@ -31,7 +31,7 @@ export default {
             },
             animation: {
                 "spin-tick": "spin-tick 60s steps(60) infinite",
-                marquee: "marquee 3.3s linear infinite",
+                marquee: "marquee 2.2s linear infinite",
             },
         },
     },

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 // Text and annotation layers disabled to prevent downloads
-import { ChevronLeft, ChevronRight, AlertCircle, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, AlertCircle, Loader2, FileText, ExternalLink } from "lucide-react";
 
 // Set up the worker - pdfjs-dist 5.x uses .mjs extension
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -39,11 +39,17 @@ export function ExhibitionDetail({ pdfUrl, assetType = 'pdf' }: ExhibitionDetail
   const [pageNumber, setPageNumber] = useState(1);
   const [error, setError] = useState<string | null>(null);
   const [containerWidth, setContainerWidth] = useState(800);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Calculate responsive width based on container
   const updateWidth = useCallback(() => {
     const maxWidth = Math.min(window.innerWidth - 32, 800); // 16px padding on each side
     setContainerWidth(maxWidth);
+    
+    // Check if device is mobile/tablet based on width (standard tablet breakpoint is often 768px or 1024px)
+    // Using 768px as a safe cutoff for "small screens" that benefit from native zoom
+    // Also checking user agent for better accuracy if needed, but width is usually sufficient for responsive layout logic
+    setIsMobile(window.innerWidth < 1024); 
   }, []);
 
   useEffect(() => {
@@ -100,6 +106,32 @@ export function ExhibitionDetail({ pdfUrl, assetType = 'pdf' }: ExhibitionDetail
             onError={() => setError("Unable to load the image.")}
             draggable={false}
           />
+        </div>
+      </div>
+    );
+  }
+
+  // Mobile/Tablet View: Button to open native PDF viewer
+  if (isMobile) {
+    return (
+      <div className="w-full flex flex-col items-center gap-6 py-12 px-4 text-center">
+        <div className="p-6 bg-zinc-50 rounded-full">
+            <FileText className="w-12 h-12 text-zinc-400" />
+        </div>
+        <div>
+            <h3 className="text-lg font-semibold text-zinc-900 mb-2">View Exhibition PDF</h3>
+            <p className="text-zinc-500 max-w-sm mx-auto mb-6">
+                Open the PDF in full-screen mode to zoom and read comfortably on your device.
+            </p>
+            <a 
+                href={pdfUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white font-semibold rounded-lg hover:bg-zinc-800 transition-colors"
+            >
+                Open PDF
+                <ExternalLink className="w-4 h-4" />
+            </a>
         </div>
       </div>
     );
