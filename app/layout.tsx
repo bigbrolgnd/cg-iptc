@@ -83,21 +83,20 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/cg-iptc.png",
-        width: 1200, // Assuming standard OG size, browser will resize if needed
+        // Use a first-party image for reliable social previews.
+        // External (e.g., Substack CDN) images can be flaky for some scrapers.
+        url: "/og-image.png",
+        width: 1200,
         height: 630,
-        alt: "Clay-Gilmore Institute Logo",
+        alt: "Clay-Gilmore Institute",
       },
     ],
-  },
-  facebook: {
-    appId: "123456789", // Placeholder, user needs to provide real ID if they have one, or we can omit/use a dummy if strictly required by a tool but ignored by FB without valid auth
   },
   twitter: {
     card: "summary_large_image",
     title: "Clay-Gilmore Institute",
     description: "Research, analysis, and discourse on anticolonial thought, philosophy, and technology.",
-    images: ["/cg-iptc.png"],
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,

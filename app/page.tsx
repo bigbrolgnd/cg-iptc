@@ -4,8 +4,8 @@ import { RecentUpdatesList } from "@/components/feed/RecentUpdatesList";
 import { EmptyState } from "@/components/feed/EmptyState";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { fetchSubstackFeed } from "@/lib/substack-parser";
-import { SubstackItem } from "@/types/substack";
-import { Metadata } from "next";
+import type { SubstackItem } from "@/types/substack";
+import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
@@ -19,7 +19,8 @@ export async function generateMetadata(): Promise<Metadata> {
         openGraph: {
           title: heroArticle.title,
           description: heroArticle.summary,
-          images: heroArticle.image ? [{ url: heroArticle.image }] : undefined,
+          // Prefer a first-party OG image for reliability. Some scrapers fail on external CDN images.
+          images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Clay-Gilmore Institute" }],
           type: "article",
           publishedTime: heroArticle.pubDate,
         },
@@ -27,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
           card: "summary_large_image",
           title: heroArticle.title,
           description: heroArticle.summary,
-          images: heroArticle.image ? [heroArticle.image] : undefined,
+          images: ["/og-image.png"],
         },
       };
     }
