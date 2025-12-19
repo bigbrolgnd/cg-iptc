@@ -7,6 +7,41 @@ import { fetchSubstackFeed } from "@/lib/substack-parser";
 import { SubstackItem } from "@/types/substack";
 import { Metadata } from "next";
 
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const feed = await fetchSubstackFeed();
+    if (feed && feed.items.length > 0) {
+      const heroArticle = feed.items[0];
+      
+      return {
+        title: heroArticle.title,
+        description: heroArticle.summary,
+        openGraph: {
+          title: heroArticle.title,
+          description: heroArticle.summary,
+          images: heroArticle.image ? [{ url: heroArticle.image }] : undefined,
+          type: "article",
+          publishedTime: heroArticle.pubDate,
+        },
+        twitter: {
+          card: "summary_large_image",
+          title: heroArticle.title,
+          description: heroArticle.summary,
+          images: heroArticle.image ? [heroArticle.image] : undefined,
+        },
+      };
+    }
+  } catch (error) {
+    console.error("Failed to generate metadata from feed:", error);
+  }
+
+  // Fallback to default metadata if feed fails or is empty
+  return {
+    title: "Home",
+    description: "Research, analysis, and discourse on anticolonial thought, philosophy, and technology.",
+  };
+}
+
 export default async function Home() {
   // Fetch full feed at build time (SSG)
   let heroArticle: SubstackItem | null = null;
