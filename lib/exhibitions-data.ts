@@ -1,9 +1,23 @@
-export interface ExhibitionSeries {
+export interface ExhibitionAsset {
   id: string;
   title: string;
   description?: string;
   assetUrl: string;
   assetType: 'pdf' | 'image';
+}
+
+export interface ExhibitionSeries {
+  id: string;
+  title: string;
+  description?: string;
+  assets: ExhibitionAsset[];
+}
+
+export interface CuratorialStatement {
+  id: string;
+  title: string;
+  description: string;
+  pdfUrl: string;
 }
 
 export interface Exhibition {
@@ -12,34 +26,124 @@ export interface Exhibition {
   subtitle?: string;
   description: string;
   summary?: string;
-  pdfUrl: string;
   date: string;
-  series?: ExhibitionSeries[];
+  curatorialStatements: CuratorialStatement[];
+  series: ExhibitionSeries[];
 }
 
 export const exhibitions: Exhibition[] = [
   {
-    id: "technologization-of-counterinsurgency",
+    id: "exhibition-one",
     title: "The Technologization of Counterinsurgency",
     subtitle: "Exhibition I",
     description: "An examination of how modern surveillance and data technologies have transformed counterinsurgency operations and their implications for civil liberties.",
-    summary: "Detroit Facial Recognition Probes (2022–2023) extends the mission of the Clay-Gilmore Institute for Philosophy, Technology, and Counterinsurgency (CG-IPTC) to expose the racialized architectures of algorithmic governance that define the modern security state. Using data from the Detroit Police Department’s facial recognition reports, the work visualizes a persistent and structural targeting pattern: over ninety percent of probe photographs identify Black males. This disproportion is not an aberration of technology but the expression of a historical logic that fuses racial surveillance with statecraft. The infographic’s design draws on the chromatic restraint and visual argumentation pioneered by W. E. B. Du Bois in his 1900 Paris Exposition infographics—an aesthetic genealogy of data as resistance.",
-    pdfUrl: "/exhibitions/CG-IPTC_Exhibit_The_Technologization_of_Counterinsurgency_Final.pdf",
+    summary: "Detroit Facial Recognition Probes (2022–2023) extends the mission of the Clay-Gilmore Institute for Philosophy, Technology, and Counterinsurgency (CG-IPTC) to expose the racialized architectures of algorithmic governance that define the modern security state. Using data from the Detroit Police Department's facial recognition reports, the work visualizes a persistent and structural targeting pattern: over ninety percent of probe photographs identify Black males. This disproportion is not an aberration of technology but the expression of a historical logic that fuses racial surveillance with statecraft. The infographic's design draws on the chromatic restraint and visual argumentation pioneered by W. E. B. Du Bois in his 1900 Paris Exposition infographics—an aesthetic genealogy of data as resistance.",
     date: "2025",
+    curatorialStatements: [
+      {
+        id: "curatorial-main",
+        title: "First Exhibition Curatorial Statement",
+        description: "Primary curatorial statement for Exhibition I",
+        pdfUrl: "/exhibitions/CG-IPTC_First_Exhibition_Curatorial_Statement.pdf"
+      },
+      {
+        id: "curatorial-detroit",
+        title: "Detroit Facial Recognition Curatorial Statement",
+        description: "Curatorial statement on Detroit facial recognition analysis",
+        pdfUrl: "/exhibitions/CG-IPTC_Curatorial_Statement_Detroit_Facial_Recognition.pdf"
+      }
+    ],
     series: [
       {
         id: "series-one",
         title: "Series One",
-        description: "Visualizing police violence and surveillance patterns.",
-        assetUrl: "/exhibitions/CGIPTC_SP_Police_Violence_Branded_Refined.png",
-        assetType: "image"
+        description: "Visualizing police violence and GPS tagging surveillance patterns.",
+        assets: [
+          {
+            id: "s1-curatorial",
+            title: "Series One Curatorial Statement",
+            description: "Curatorial statement for Series One",
+            assetUrl: "/exhibitions/series-one/CGIPTC_Curatorial_Statement_Series01_2025.pdf",
+            assetType: "pdf"
+          },
+          {
+            id: "s1-police-violence",
+            title: "Police Violence Visualization",
+            description: "São Paulo police violence data visualization",
+            assetUrl: "/exhibitions/series-one/CGIPTC_SP_Police_Violence_Branded_Refined.png",
+            assetType: "image"
+          },
+          {
+            id: "s1-gps-tagging",
+            title: "GPS Tagging Visualization",
+            description: "London GPS tagging surveillance data",
+            assetUrl: "/exhibitions/series-one/CGIPTC_LDN_GPS_Tagging_Branded_Refined.png",
+            assetType: "image"
+          }
+        ]
       },
       {
         id: "series-two",
         title: "Series Two",
-        description: "Curatorial Statement and analysis of Detroit Facial Recognition Probes.",
-        assetUrl: "/CG-IPTC_Curatorial_Statement.pdf",
-        assetType: "pdf"
+        description: "Detroit Facial Recognition Probes and Atlanta surveillance analysis.",
+        assets: [
+          {
+            id: "s2-curatorial",
+            title: "Series Two Curatorial Statement",
+            description: "Curatorial statement for Series Two",
+            assetUrl: "/exhibitions/series-two/CGIPTC_Curatorial_Statement_Series02_2025.pdf",
+            assetType: "pdf"
+          },
+          {
+            id: "s2-first-visualization",
+            title: "First Visualization",
+            description: "Initial facial recognition probe visualization",
+            assetUrl: "/exhibitions/series-two/First Visualization.pdf",
+            assetType: "pdf"
+          },
+          {
+            id: "s2-facial-recognition",
+            title: "Facial Recognition Visualizations",
+            description: "Comprehensive facial recognition data visualizations",
+            assetUrl: "/exhibitions/series-two/CG-IPTC facial recognition visualizations.png",
+            assetType: "image"
+          },
+          {
+            id: "s2-frt-target-rates",
+            title: "FRT Target Rates",
+            description: "Facial recognition technology target rate analysis",
+            assetUrl: "/exhibitions/series-two/CG-IPTC FRT Target Rates.png",
+            assetType: "image"
+          },
+          {
+            id: "s2-mpv-race-sex",
+            title: "MPV Race & Sex Per Capita",
+            description: "Mapping police violence by race and sex per capita",
+            assetUrl: "/exhibitions/series-two/mpv_race_sex_percapita.png",
+            assetType: "image"
+          },
+          {
+            id: "s2-atl-repeat-offenders",
+            title: "Atlanta Repeat Offenders",
+            description: "Atlanta repeat offenders stacked bar analysis",
+            assetUrl: "/exhibitions/series-two/atl_repeat_offenders_stackedbar_updated.png",
+            assetType: "image"
+          },
+          {
+            id: "s2-atl-target-rings",
+            title: "Atlanta Target Rings",
+            description: "Atlanta surveillance target ring visualization",
+            assetUrl: "/exhibitions/series-two/atl_target_rings_updated.png",
+            assetType: "image"
+          },
+          {
+            id: "s2-atl-target-rings-coin",
+            title: "Atlanta Target Rings (Coin Style)",
+            description: "Atlanta target ring coin-style visualization",
+            assetUrl: "/exhibitions/series-two/atl_target_rings_coin_style.png",
+            assetType: "image"
+          }
+        ]
       }
     ]
   },

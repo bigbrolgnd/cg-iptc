@@ -1,34 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import Link from "next/link";
 import { LayoutShell } from "@/components/layout/LayoutShell";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { EmptyState } from "@/components/feed/EmptyState";
-import { PdfViewer } from "@/components/features/PdfViewer";
-import { ExhibitionSelector } from "@/components/features/ExhibitionSelector";
-import { exhibitions, getDefaultExhibition, hasExhibitions } from "@/lib/exhibitions-data";
-import type { Exhibition, ExhibitionSeries } from "@/lib/exhibitions-data";
-import { cn } from "@/lib/utils";
+import { exhibitions, hasExhibitions } from "@/lib/exhibitions-data";
+import { ArrowRight, Calendar } from "lucide-react";
 
 export default function Exhibitions() {
-  const defaultExhibition = getDefaultExhibition();
-  const [selectedExhibition, setSelectedExhibition] = useState<Exhibition | undefined>(
-    defaultExhibition
-  );
-
-  const [selectedSeries, setSelectedSeries] = useState<ExhibitionSeries | undefined>(
-    defaultExhibition?.series?.[0]
-  );
-
-  useEffect(() => {
-    if (selectedExhibition?.series?.length) {
-      setSelectedSeries(selectedExhibition.series[0]);
-    } else {
-      setSelectedSeries(undefined);
-    }
-  }, [selectedExhibition]);
-
-  if (!hasExhibitions() || !selectedExhibition) {
+  if (!hasExhibitions()) {
     return (
       <LayoutShell>
         <EmptyState
@@ -39,89 +18,65 @@ export default function Exhibitions() {
     );
   }
 
-  const viewerUrl = selectedSeries ? selectedSeries.assetUrl : selectedExhibition.pdfUrl;
-  const viewerType = selectedSeries ? selectedSeries.assetType : 'pdf';
-
   return (
     <LayoutShell>
-      <div className="pt-6 pb-12">
-        <ExhibitionSelector
-          exhibitions={exhibitions}
-          selectedExhibition={selectedExhibition}
-          onSelect={setSelectedExhibition}
-        />
+      <div className="pt-8 pb-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          {/* Page Header */}
+          <header className="mb-12 text-center">
+            <h1 className="font-serif text-4xl md:text-5xl font-bold text-zinc-900 mb-4">
+              Exhibitions
+            </h1>
+            <p className="text-zinc-600 text-lg max-w-2xl mx-auto leading-relaxed">
+              Explore our collection of exhibitions examining surveillance, technology,
+              and their implications for civil liberties.
+            </p>
+          </header>
 
-        <div className="w-full max-w-4xl mx-auto mb-6">
-          {selectedExhibition.series && selectedExhibition.series.length > 0 && (
-            <div className="flex gap-6 mb-6 border-b border-zinc-200">
-              {selectedExhibition.series.map(series => (
-                <button
-                  key={series.id}
-                  onClick={() => setSelectedSeries(series)}
-                  className={cn(
-                    "pb-3 px-1 text-sm font-medium transition-all relative",
-                    selectedSeries?.id === series.id
-                      ? "text-zinc-900 font-semibold after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-zinc-900"
-                      : "text-zinc-500 hover:text-zinc-800"
-                  )}
-                >
-                  {series.title}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {selectedExhibition.summary && (
-            <div className="bg-zinc-50 rounded-lg p-6 mb-8 border border-zinc-100">
-              <p className="text-zinc-700 leading-relaxed font-serif text-lg">
-                {selectedExhibition.summary}
-              </p>
-              {/* Inline links to assets */}
-              <div className="flex flex-wrap gap-4 mt-6 text-sm">
-                {selectedExhibition.series?.map(series => (
-                  <button
-                    key={`link-${series.id}`}
-                    onClick={() => setSelectedSeries(series)}
-                    className={cn(
-                      "px-3 py-1.5 rounded-md transition-colors border",
-                      selectedSeries?.id === series.id
-                        ? "bg-zinc-900 text-white border-zinc-900"
-                        : "bg-white text-zinc-600 border-zinc-300 hover:border-zinc-400"
+          {/* Exhibition Cards */}
+          <div className="grid gap-6">
+            {exhibitions.map((exhibition) => (
+              <Link
+                key={exhibition.id}
+                href={`/exhibitions/${exhibition.id}`}
+                className="group block bg-white border border-zinc-200 rounded-xl p-6 md:p-8 hover:border-zinc-400 hover:shadow-lg transition-all duration-200"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    {exhibition.subtitle && (
+                      <span className="inline-block text-xs font-semibold tracking-widest uppercase text-zinc-500 mb-2">
+                        {exhibition.subtitle}
+                      </span>
                     )}
-                  >
-                    View {series.title}
-                  </button>
-                ))}
-                <a
-                  href="/CG-IPTC_Curatorial_Statement.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1.5 rounded-md transition-colors border bg-white text-zinc-600 border-zinc-300 hover:border-zinc-400 hover:bg-zinc-50 flex items-center gap-2"
-                >
-                  <span>Curatorial Statement</span>
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 00-2 2h10a2 2 0 00-2-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          )}
-        </div>
+                    <h2 className="font-serif text-2xl md:text-3xl font-bold text-zinc-900 mb-3 group-hover:text-zinc-700 transition-colors">
+                      {exhibition.title}
+                    </h2>
+                    <p className="text-zinc-600 leading-relaxed mb-4 line-clamp-3">
+                      {exhibition.description}
+                    </p>
 
-        <ErrorBoundary
-          fallback={
-            <EmptyState
-              title="Something went wrong"
-              message="We couldn't load the exhibition content. Please try refreshing."
-            />
-          }
-        >
-          <PdfViewer
-            key={viewerUrl}
-            pdfUrl={viewerUrl}
-            assetType={viewerType}
-          />
-        </ErrorBoundary>
+                    {/* Exhibition Meta */}
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-zinc-500">
+                      <span className="flex items-center gap-1.5">
+                        <Calendar className="w-4 h-4" />
+                        {exhibition.date}
+                      </span>
+                      <span className="text-zinc-300">|</span>
+                      <span>{exhibition.curatorialStatements.length} Curatorial Statement{exhibition.curatorialStatements.length !== 1 ? 's' : ''}</span>
+                      <span className="text-zinc-300">|</span>
+                      <span>{exhibition.series.length} Series</span>
+                    </div>
+                  </div>
+
+                  {/* Arrow Indicator */}
+                  <div className="flex-shrink-0 p-3 rounded-full bg-zinc-100 group-hover:bg-zinc-900 transition-colors">
+                    <ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-white transition-colors" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </LayoutShell>
   );
