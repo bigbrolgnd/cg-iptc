@@ -9,12 +9,14 @@ interface ExhibitionSelectorProps {
   exhibitions: Exhibition[];
   selectedExhibition: Exhibition;
   onSelect: (exhibition: Exhibition) => void;
+  onViewPdf?: () => void;
 }
 
 export function ExhibitionSelector({
   exhibitions,
   selectedExhibition,
   onSelect,
+  onViewPdf,
 }: ExhibitionSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
@@ -96,11 +98,10 @@ export function ExhibitionSelector({
   if (exhibitions.length <= 1) {
     return (
       <div className="w-full max-w-4xl mx-auto mb-6">
-        <a
-          href={selectedExhibition.pdfUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-3 p-4 bg-zinc-50 border border-zinc-200 rounded-lg hover:bg-zinc-100 hover:border-zinc-300 transition-all cursor-pointer group"
+        <button
+          type="button"
+          onClick={onViewPdf}
+          className="w-full flex items-center gap-3 p-4 bg-zinc-50 border border-zinc-200 rounded-lg hover:bg-zinc-100 hover:border-zinc-300 transition-all cursor-pointer group text-left"
         >
           <FileText className="w-5 h-5 text-zinc-600 group-hover:text-zinc-900 transition-colors flex-shrink-0" aria-hidden="true" />
           <div>
@@ -111,7 +112,7 @@ export function ExhibitionSelector({
               <p className="text-sm text-zinc-600">{selectedExhibition.subtitle}</p>
             )}
           </div>
-        </a>
+        </button>
       </div>
     );
   }

@@ -13,11 +13,7 @@ export function Navbar({ pathname }: NavbarProps) {
         { label: "ABOUT US", href: "/about" },
     ];
 
-    let navItems = [...defaultNavItems];
-
-    if (pathname !== '/') {
-        navItems = [{ label: "HOME", href: "/" }, ...defaultNavItems];
-    }
+    const navItems = [{ label: "HOME", href: "/" }, ...defaultNavItems];
 
     return (
         <>

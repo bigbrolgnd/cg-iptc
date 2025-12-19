@@ -28,8 +28,7 @@ export default function Exhibitions() {
               Exhibitions
             </h1>
             <p className="text-zinc-600 text-lg max-w-2xl mx-auto leading-relaxed">
-              Explore our collection of exhibitions examining surveillance, technology,
-              and their implications for civil liberties.
+              Explore our collection of exhibitions.
             </p>
           </header>
 

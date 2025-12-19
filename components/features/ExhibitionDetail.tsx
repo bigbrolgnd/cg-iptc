@@ -2,8 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/Page/TextLayer.css";
+// Text and annotation layers disabled to prevent downloads
 import { ChevronLeft, ChevronRight, AlertCircle, Loader2 } from "lucide-react";
 
 // Set up the worker - pdfjs-dist 5.x uses .mjs extension
@@ -80,16 +79,26 @@ export function ExhibitionDetail({ pdfUrl, assetType = 'pdf' }: ExhibitionDetail
     return <ErrorDisplay message={error} />;
   }
 
+  // Prevent right-click context menu to discourage downloads
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    return false;
+  };
+
   if (assetType === 'image') {
     return (
-      <div className="w-full flex flex-col items-center gap-4 py-8">
-        <div className="w-full max-w-4xl mx-auto overflow-hidden">
+      <div
+        className="w-full flex flex-col items-center gap-4 py-8"
+        onContextMenu={handleContextMenu}
+      >
+        <div className="w-full max-w-4xl mx-auto overflow-hidden select-none">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={pdfUrl}
             alt="Exhibition content"
-            className="w-full h-auto object-contain"
+            className="w-full h-auto object-contain pointer-events-none"
             onError={() => setError("Unable to load the image.")}
+            draggable={false}
           />
         </div>
       </div>
@@ -97,8 +106,11 @@ export function ExhibitionDetail({ pdfUrl, assetType = 'pdf' }: ExhibitionDetail
   }
 
   return (
-    <div className="w-full flex flex-col items-center gap-4 py-8">
-      <div className="w-full max-w-4xl mx-auto overflow-hidden">
+    <div
+      className="w-full flex flex-col items-center gap-4 py-8"
+      onContextMenu={handleContextMenu}
+    >
+      <div className="w-full max-w-4xl mx-auto overflow-hidden select-none">
         <Document
           file={pdfUrl}
           onLoadSuccess={onDocumentLoadSuccess}
@@ -112,6 +124,8 @@ export function ExhibitionDetail({ pdfUrl, assetType = 'pdf' }: ExhibitionDetail
             width={containerWidth}
             loading={<LoadingSpinner />}
             error={<ErrorDisplay message="This page could not be rendered." />}
+            renderTextLayer={false}
+            renderAnnotationLayer={false}
           />
         </Document>
       </div>
