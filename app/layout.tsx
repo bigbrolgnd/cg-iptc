@@ -30,12 +30,24 @@ const oswald = Oswald({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://cg-iptc.org"),
+  metadataBase: new URL("https://cg-iptc.org"),
   title: {
     template: "%s | Clay-Gilmore Institute",
     default: "Clay-Gilmore Institute for Philosophy, Technology, and Counterinsurgency",
   },
   description: "Research, analysis, and discourse on anticolonial thought, philosophy, and technology.",
+  icons: {
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      { rel: "manifest", url: "/site.webmanifest" },
+    ],
+  },
   openGraph: {
     title: "Clay-Gilmore Institute",
     description: "Research, analysis, and discourse on anticolonial thought, philosophy, and technology.",
@@ -45,8 +57,8 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
-        width: 1200,
+        url: "/cg-iptc.png",
+        width: 1200, // Assuming standard OG size, browser will resize if needed
         height: 630,
         alt: "Clay-Gilmore Institute Logo",
       },
@@ -56,7 +68,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Clay-Gilmore Institute",
     description: "Research, analysis, and discourse on anticolonial thought, philosophy, and technology.",
-    images: ["/og-image.png"],
+    images: ["/cg-iptc.png"],
   },
   robots: {
     index: true,

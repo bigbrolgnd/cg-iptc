@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation"; // Import usePathname
 import { Navbar } from "./Navbar";
+import { Footer } from "./Footer";
 import { TwoColumnShell } from "./TwoColumnShell";
 
 interface LayoutShellProps {
@@ -36,6 +37,8 @@ export function LayoutShell({
                     </section>
                 </main>
             </div>
+
+            <Footer />
         </div>
     );
 }
