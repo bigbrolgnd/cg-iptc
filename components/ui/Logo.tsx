@@ -7,25 +7,6 @@ interface LogoProps {
 }
 
 export const Logo: React.FC<LogoProps> = ({ className }) => {
-    const gearRef = React.useRef<SVGGElement>(null);
-
-    React.useEffect(() => {
-        const handleScroll = () => {
-            if (gearRef.current) {
-                // Rotate clockwise on scroll: window.scrollY
-                // Adjust divisor to control speed (e.g., / 5 for varying speed)
-                const rotation = window.scrollY / 5;
-                gearRef.current.style.transform = `rotate(${rotation}deg)`;
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        // Initial call to set position if loaded scrolled down
-        handleScroll();
-
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
     return (
         <svg
             version="1.2"
@@ -34,10 +15,9 @@ export const Logo: React.FC<LogoProps> = ({ className }) => {
             className={className}
             aria-label="Clay-Gilmore Institute Logo"
         >
-            {/* Gear Path - Rotates on scroll */}
+            {/* Gear Path - Rotates indefinitely */}
             <g
-                ref={gearRef}
-                className="origin-center"
+                className="origin-center animate-[spin_10s_linear_infinite]"
                 style={{ transformBox: 'fill-box' }}
             >
                 <path
