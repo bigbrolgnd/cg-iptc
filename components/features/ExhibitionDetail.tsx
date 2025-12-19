@@ -92,6 +92,32 @@ export function ExhibitionDetail({ pdfUrl, assetType = 'pdf' }: ExhibitionDetail
   };
 
   if (assetType === 'image') {
+    // Mobile/Tablet: Open image in new tab for native zoom
+    if (isMobile) {
+      return (
+        <div className="w-full flex flex-col items-center gap-6 py-12 px-4 text-center">
+          <div className="p-6 bg-zinc-50 rounded-full">
+              <FileText className="w-12 h-12 text-zinc-400" />
+          </div>
+          <div>
+              <h3 className="text-lg font-semibold text-zinc-900 mb-2">View Exhibition Image</h3>
+              <p className="text-zinc-500 max-w-sm mx-auto mb-6">
+                  Open the image in full-screen mode to zoom and view details on your device.
+              </p>
+              <a 
+                  href={pdfUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white font-semibold rounded-lg hover:bg-zinc-800 transition-colors"
+              >
+                  Open Image
+                  <ExternalLink className="w-4 h-4" />
+              </a>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div
         className="w-full flex flex-col items-center gap-4 py-8"

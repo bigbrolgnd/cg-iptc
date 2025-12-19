@@ -23,20 +23,15 @@ export function ExhibitionSelector({
   const containerRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
-  // Close on click outside
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
-    if (!isOpen) return;
-
-    function handleClickOutside(event: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-        setFocusedIndex(-1);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isOpen]);
+    // Check for mobile/tablet
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Handle keyboard navigation
   const handleKeyDown = useCallback(
@@ -94,13 +89,23 @@ export function ExhibitionSelector({
     }
   }, [focusedIndex, isOpen]);
 
+  // Handle scrolling to top for mobile PDF viewing
+  const handleMobileScroll = () => {
+    if (isMobile) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   // Single exhibition display (no dropdown needed)
   if (exhibitions.length <= 1) {
     return (
       <div className="w-full max-w-4xl mx-auto mb-6">
         <button
           type="button"
-          onClick={onViewPdf}
+          onClick={() => {
+            handleMobileScroll();
+            onViewPdf?.();
+          }}
           className="w-full flex items-center gap-3 p-4 bg-zinc-50 border border-zinc-200 rounded-lg hover:bg-zinc-100 hover:border-zinc-300 transition-all cursor-pointer group text-left"
         >
           <FileText className="w-5 h-5 text-zinc-600 group-hover:text-zinc-900 transition-colors flex-shrink-0" aria-hidden="true" />
@@ -185,11 +190,13 @@ export function ExhibitionSelector({
                 <button
                   type="button"
                   onClick={() => {
+                    handleMobileScroll();
                     onSelect(exhibition);
                     setIsOpen(false);
                     setFocusedIndex(-1);
                   }}
                   onMouseEnter={() => setFocusedIndex(index)}
+
                   className={cn(
                     "w-full text-left p-4 transition-colors",
                     "focus:outline-none",
