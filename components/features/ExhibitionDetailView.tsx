@@ -176,8 +176,8 @@ export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) 
                 />
               </button>
 
-              {/* Series Assets */}
-              {(activeSeriesId === series.id || activeSeriesId === null) && (
+              {/* Series Assets - Only show when this specific series is active */}
+              {activeSeriesId === series.id && (
                 <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                   {series.assets.map((asset) => (
                     <button
