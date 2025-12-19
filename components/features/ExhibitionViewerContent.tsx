@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { ChevronLeft, ChevronRight, Loader2, AlertCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2, AlertCircle, ZoomIn, ZoomOut } from "lucide-react";
 import { AssetViewerModal } from "@/components/ui/AssetViewerModal";
 import type { ExhibitionAsset } from "@/lib/exhibitions-data";
 
@@ -48,6 +48,7 @@ export function ExhibitionViewerContent({
   const [pageNumber, setPageNumber] = useState(1);
   const [error, setError] = useState<string | null>(null);
   const [containerWidth, setContainerWidth] = useState(800);
+  const [scale, setScale] = useState(1.0);
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
 
@@ -60,14 +61,18 @@ export function ExhibitionViewerContent({
     setPageNumber(1);
     setNumPages(null);
     setError(null);
+    setScale(1.0);
     setImageError(false);
     setImageLoading(true);
   }, [selectedIndex]);
 
   // Calculate responsive width based on viewport
   const updateWidth = useCallback(() => {
-    // Account for modal padding and navigation arrows
-    const maxWidth = Math.min(window.innerWidth - 160, 900);
+    // Mobile: 32px total padding (16px each side)
+    // Desktop: 160px total padding (80px each side for navigation arrows)
+    const isMobile = window.innerWidth < 768;
+    const padding = isMobile ? 32 : 160;
+    const maxWidth = Math.min(window.innerWidth - padding, 1200);
     setContainerWidth(maxWidth);
   }, []);
 
@@ -97,6 +102,14 @@ export function ExhibitionViewerContent({
       setPageNumber((prev) => Math.min(numPages, prev + 1));
     }
   }, [numPages]);
+
+  const zoomIn = useCallback(() => {
+    setScale((prev) => Math.min(prev + 0.25, 3.0));
+  }, []);
+
+  const zoomOut = useCallback(() => {
+    setScale((prev) => Math.max(prev - 0.25, 0.5));
+  }, []);
 
   // Handle keyboard for PDF page navigation
   useEffect(() => {
@@ -179,52 +192,84 @@ export function ExhibitionViewerContent({
         className="w-full flex flex-col items-center gap-4"
         onContextMenu={handleContextMenu}
       >
-        <div className="overflow-auto max-h-[70vh] select-none">
+        {/* PDF Container - allow horizontal scroll when zoomed */}
+        <div className="overflow-auto max-h-[70vh] w-full flex justify-center select-none bg-black/20 rounded-lg backdrop-blur-sm">
           <Document
             file={currentAsset.assetUrl}
             onLoadSuccess={onDocumentLoadSuccess}
             onLoadError={onDocumentLoadError}
             loading={<LoadingSpinner />}
             error={<ErrorDisplay message="The PDF could not be loaded." />}
-            className="flex justify-center"
+            className="flex justify-center p-4"
           >
             <Page
               pageNumber={pageNumber}
               width={containerWidth}
+              scale={scale}
               loading={<LoadingSpinner />}
               error={<ErrorDisplay message="This page could not be rendered." />}
               renderTextLayer={false}
               renderAnnotationLayer={false}
+              className="shadow-2xl"
             />
           </Document>
         </div>
 
-        {/* PDF Page Navigation */}
-        {numPages && numPages > 1 && (
-          <div className="flex items-center gap-4 py-2">
+        {/* PDF Controls: Navigation + Zoom */}
+        <div className="flex flex-wrap items-center justify-center gap-4 py-2 bg-black/40 rounded-full px-6 backdrop-blur-md border border-white/10">
+          
+          {/* Page Navigation */}
+          {numPages && numPages > 1 && (
+            <div className="flex items-center gap-2 border-r border-white/20 pr-4 mr-2">
+              <button
+                type="button"
+                disabled={pageNumber <= 1}
+                onClick={previousPage}
+                aria-label="Go to previous page"
+                className="p-2 rounded-full hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              >
+                <ChevronLeft className="w-5 h-5 text-white" aria-hidden="true" />
+              </button>
+              <p className="text-sm text-white/90 font-mono tabular-nums min-w-[80px] text-center">
+                {pageNumber} / {numPages}
+              </p>
+              <button
+                type="button"
+                disabled={pageNumber >= numPages}
+                onClick={nextPage}
+                aria-label="Go to next page"
+                className="p-2 rounded-full hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              >
+                <ChevronRight className="w-5 h-5 text-white" aria-hidden="true" />
+              </button>
+            </div>
+          )}
+
+          {/* Zoom Controls */}
+          <div className="flex items-center gap-2">
             <button
               type="button"
-              disabled={pageNumber <= 1}
-              onClick={previousPage}
-              aria-label="Go to previous page"
-              className="p-2 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
+              onClick={zoomOut}
+              disabled={scale <= 0.5}
+              aria-label="Zoom out"
+              className="p-2 rounded-full hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
-              <ChevronLeft className="w-5 h-5 text-white" aria-hidden="true" />
+              <ZoomOut className="w-5 h-5 text-white" />
             </button>
-            <p className="text-sm text-white/70 min-w-[100px] text-center tabular-nums">
-              Page {pageNumber} of {numPages}
-            </p>
+            <span className="text-xs text-white/70 font-mono w-12 text-center">
+              {Math.round(scale * 100)}%
+            </span>
             <button
               type="button"
-              disabled={pageNumber >= numPages}
-              onClick={nextPage}
-              aria-label="Go to next page"
-              className="p-2 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
+              onClick={zoomIn}
+              disabled={scale >= 3.0}
+              aria-label="Zoom in"
+              className="p-2 rounded-full hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
-              <ChevronRight className="w-5 h-5 text-white" aria-hidden="true" />
+              <ZoomIn className="w-5 h-5 text-white" />
             </button>
           </div>
-        )}
+        </div>
       </div>
     );
   };
