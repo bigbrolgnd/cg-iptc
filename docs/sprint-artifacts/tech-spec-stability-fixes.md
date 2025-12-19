@@ -1,7 +1,7 @@
 # Tech-Spec: Stability Fixes & Global Error Handling
 
 **Created:** 2025-12-19
-**Status:** Ready for Development
+**Status:** Completed
 
 ## Overview
 
@@ -45,14 +45,14 @@ Implement a multi-layered stability fix:
 
 ### Tasks
 
-- [ ] **Task 1: Implement Next.js Error UI**
+- [x] **Task 1: Implement Next.js Error UI**
     -   Create `app/error.tsx` with a user-friendly error message and "Try again" button.
     -   Create `app/global-error.tsx` for catching errors in the root layout itself.
 
-- [ ] **Task 2: Fix Footer Hydration Mismatch**
+- [x] **Task 2: Fix Footer Hydration Mismatch**
     -   Refactor `Footer.tsx` to use a constant year or `useEffect` to set the year, ensuring server/client HTML matches initially.
 
-- [ ] **Task 3: Refactor HeroArticle Truncation**
+- [x] **Task 3: Refactor HeroArticle Truncation**
     -   Review `HeroArticle.tsx`. The current `truncateHtmlByWords` logic runs during `useMemo` but does DOM manipulation.
     -   **Approach:** Move truncation logic to a `useEffect` that updates state *after* mount, or (better) perform this truncation in `lib/substack-parser.ts` on the server so the client receives a simple string.
     -   *Decision:* Let's keep it in the component but move it to `useEffect` to ensure it never blocks the initial paint/hydration. Initialize with full content (hidden or limited by CSS) then truncate.
@@ -60,15 +60,15 @@ Implement a multi-layered stability fix:
     -   *Selected Approach:* **Use CSS line-clamp** if possible for the "collapsed" state. However, the requirement is "first 500 words". CSS can't count words.
     -   *Revised Approach:* Move `truncateHtmlByWords` to `lib/substack-parser.ts`. Compute `previewContent` on the server. The client just toggles between `previewContent` and `fullContent`. ZERO client-side DOM manipulation.
 
-- [ ] **Task 4: Safe Date Formatting in RecentUpdatesList**
+- [x] **Task 4: Safe Date Formatting in RecentUpdatesList**
     -   Wrap `new Date(article.pubDate)` in a try/catch or helper function that returns a fallback string if the date is invalid.
 
 ### Acceptance Criteria
 
-- [ ] **AC 1:** `app/error.tsx` is present and renders a friendly UI when a page-level error is thrown.
-- [ ] **AC 2:** `Footer.tsx` renders the same HTML on server and client (no hydration warning in console).
-- [ ] **AC 3:** `HeroArticle.tsx` no longer performs manual DOM manipulation (`document.createElement`) on the client. Truncation is handled safely (e.g. pre-calculated or CSS-based).
-- [ ] **AC 4:** The "White Screen" is gone. If an error occurs, the Error UI is shown.
+- [x] **AC 1:** `app/error.tsx` is present and renders a friendly UI when a page-level error is thrown.
+- [x] **AC 2:** `Footer.tsx` renders the same HTML on server and client (no hydration warning in console).
+- [x] **AC 3:** `HeroArticle.tsx` no longer performs manual DOM manipulation (`document.createElement`) on the client. Truncation is handled safely (e.g. pre-calculated or CSS-based).
+- [x] **AC 4:** The "White Screen" is gone. If an error occurs, the Error UI is shown.
 
 ## Additional Context
 
