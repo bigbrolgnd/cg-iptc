@@ -86,8 +86,10 @@ export function parseSubstackFeed(xml: string): SubstackFeed {
         const rawContent = contentEncoded || description;
 
         // Sanitize content to prevent XSS
-        // isomorphic-dompurify handles the window context automatically
         const sanitizedContent = DOMPurify.sanitize(rawContent);
+
+        // Clean Substack-specific boilerplate
+        const cleanedContent = cleanSubstackContent(sanitizedContent);
 
         // Extract image from enclosure if available
         const enclosure = item.querySelector('enclosure');
@@ -105,7 +107,7 @@ export function parseSubstackFeed(xml: string): SubstackFeed {
             title: itemTitle,
             link: itemLink,
             pubDate,
-            content: sanitizedContent,
+            content: cleanedContent,
             summary: description, // Keep raw description as summary
             image,
             guid,
@@ -118,4 +120,47 @@ export function parseSubstackFeed(xml: string): SubstackFeed {
         items,
         lastBuildDate,
     };
+}
+
+/**
+ * Removes Substack-specific boilerplate like subscription forms and "Thanks for reading" messages.
+ */
+function cleanSubstackContent(html: string): string {
+    if (!html) return '';
+
+    const dom = new JSDOM(html);
+    const doc = dom.window.document;
+
+    // 1. Remove specific subscription forms
+    const forms = doc.querySelectorAll('form.subscription-widget-subscribe, .subscription-widget-subscribe');
+    forms.forEach(form => form.remove());
+
+    // 2. Remove "Thanks for reading!" boilerplate text
+    const targetText = "Thanks for reading! Subscribe for free to receive new posts and support my work.";
+
+    // Search for elements containing this text
+    const elements = Array.from(doc.querySelectorAll('p, div, span'));
+    elements.forEach(el => {
+        if (el.textContent?.includes(targetText)) {
+            // If the element's trimmed text is exactly the target text, remove the whole element
+            if (el.textContent.trim() === targetText) {
+                el.remove();
+            } else {
+                // Otherwise just replace the text within the element
+                el.innerHTML = el.innerHTML.replace(targetText, '');
+            }
+        }
+    });
+
+    // Also check for any remaining text nodes just in case they aren't in p/div/span
+    const walker = doc.createTreeWalker(doc.body, 4 /* NodeFilter.SHOW_TEXT */);
+    let node;
+    const nodesToRemove: Node[] = [];
+    while (node = walker.nextNode()) {
+        if (node.textContent?.includes(targetText)) {
+            node.textContent = node.textContent.replace(targetText, '');
+        }
+    }
+
+    return doc.body.innerHTML;
 }
