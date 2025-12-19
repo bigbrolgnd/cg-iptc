@@ -7,25 +7,32 @@ describe('Navbar', () => {
     cleanup();
   });
 
-  it('renders the institute title', () => {
-    render(<Navbar />);
+  it('[P1] renders the institute title', () => {
+    // GIVEN: Navbar component with pathname
+    render(<Navbar pathname="/" />);
 
+    // THEN: Institute title is displayed
     expect(screen.getByText(/Clay-Gilmore Institute/)).toBeInTheDocument();
   });
 
-  it('renders all navigation items', () => {
-    render(<Navbar />);
+  it('[P1] renders all navigation items', () => {
+    // GIVEN: Navbar component
+    render(<Navbar pathname="/" />);
 
-    expect(screen.getAllByText('EXHIBITS').length).toBeGreaterThan(0);
+    // THEN: All nav items are present (duplicated for mobile ticker)
+    expect(screen.getAllByText('HOME').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('EXHIBITIONS').length).toBeGreaterThan(0);
     expect(screen.getAllByText('PODCASTS').length).toBeGreaterThan(0);
     expect(screen.getAllByText('UPDATES').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('SUBSCRIBE').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('NEWSLETTER').length).toBeGreaterThan(0);
     expect(screen.getAllByText('ABOUT US').length).toBeGreaterThan(0);
   });
 
-  it('PODCASTS link points to YouTube playlist', () => {
-    render(<Navbar />);
+  it('[P1] PODCASTS link points to YouTube playlist', () => {
+    // GIVEN: Navbar component
+    render(<Navbar pathname="/" />);
 
+    // THEN: PODCASTS links to YouTube playlist
     const podcastLinks = screen.getAllByText('PODCASTS');
     const firstPodcastLink = podcastLinks[0].closest('a');
 
@@ -35,9 +42,11 @@ describe('Navbar', () => {
     );
   });
 
-  it('PODCASTS link opens in new tab', () => {
-    render(<Navbar />);
+  it('[P1] PODCASTS link opens in new tab', () => {
+    // GIVEN: Navbar component
+    render(<Navbar pathname="/" />);
 
+    // THEN: External link has proper attributes
     const podcastLinks = screen.getAllByText('PODCASTS');
     const firstPodcastLink = podcastLinks[0].closest('a');
 
@@ -45,38 +54,45 @@ describe('Navbar', () => {
     expect(firstPodcastLink).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
-  it('navigation links have hover styling for red color', () => {
-    render(<Navbar />);
+  it('[P1] navigation links have hover styling for red color', () => {
+    // GIVEN: Navbar component
+    render(<Navbar pathname="/" />);
 
-    const exhibitsLinks = screen.getAllByText('EXHIBITS');
-    const firstExhibitsLink = exhibitsLinks[0].closest('a');
+    // THEN: Links have red hover state
+    const exhibitionsLinks = screen.getAllByText('EXHIBITIONS');
+    const firstExhibitionsLink = exhibitionsLinks[0].closest('a');
 
-    expect(firstExhibitsLink?.className).toContain('hover:text-red-700');
+    expect(firstExhibitionsLink?.className).toContain('hover:text-red-700');
   });
 
-  it('navigation links have cursor pointer', () => {
-    render(<Navbar />);
+  it('[P2] navigation links have cursor pointer', () => {
+    // GIVEN: Navbar component
+    render(<Navbar pathname="/" />);
 
-    const exhibitsLinks = screen.getAllByText('EXHIBITS');
-    const firstExhibitsLink = exhibitsLinks[0].closest('a');
+    // THEN: Links show pointer cursor
+    const exhibitionsLinks = screen.getAllByText('EXHIBITIONS');
+    const firstExhibitionsLink = exhibitionsLinks[0].closest('a');
 
-    expect(firstExhibitsLink?.className).toContain('cursor-pointer');
+    expect(firstExhibitionsLink?.className).toContain('cursor-pointer');
   });
 
-  it('has sticky positioning', () => {
-    render(<Navbar />);
+  it('[P1] has sticky positioning', () => {
+    // GIVEN: Navbar component
+    render(<Navbar pathname="/" />);
 
-    // Find the sticky nav container
+    // THEN: Navigation container is sticky
     const stickyNav = document.querySelector('.sticky');
     expect(stickyNav).toBeInTheDocument();
     expect(stickyNav?.className).toContain('top-0');
     expect(stickyNav?.className).toContain('z-50');
   });
 
-  it('uses Lexend font for branding', () => {
-    render(<Navbar />);
+  it('[P2] uses Oswald font for branding title', () => {
+    // GIVEN: Navbar component
+    render(<Navbar pathname="/" />);
 
+    // THEN: Title uses Oswald font family
     const title = screen.getByText(/Clay-Gilmore Institute/);
-    expect(title).toHaveStyle({ fontFamily: 'var(--font-lexend)' });
+    expect(title).toHaveStyle({ fontFamily: 'var(--font-oswald)' });
   });
 });

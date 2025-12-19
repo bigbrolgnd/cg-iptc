@@ -4,7 +4,12 @@
       "Bash(cat:*)",
       "Bash(.claude/hooks/play-tts.sh:*)",
       "Bash(npx playwright install:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(rm:*)",
+      "Bash(npm run build:*)",
+      "Bash(ss -tlnp:*)",
+      "Bash(git commit:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

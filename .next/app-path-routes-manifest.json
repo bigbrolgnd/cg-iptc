@@ -2,6 +2,7 @@
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
   "/about/page": "/about",
+  "/exhibitions/[id]/page": "/exhibitions/[id]",
   "/exhibitions/page": "/exhibitions",
   "/favicon.ico/route": "/favicon.ico",
   "/page": "/"

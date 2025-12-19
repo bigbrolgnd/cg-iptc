@@ -57,20 +57,37 @@ export function Navbar({ pathname }: NavbarProps) {
                     </nav>
                 </div>
 
-                {/* Mobile View: Horizontal Scroll */}
-                <div className="flex md:hidden overflow-x-auto py-3 no-scrollbar">
-                    <div className="flex items-center gap-8 px-6 min-w-max">
-                        {navItems.map((item) => (
-                            <a
-                                key={item.label}
-                                href={item.href}
-                                target={item.label === "PODCASTS" ? "_blank" : undefined}
-                                rel={item.label === "PODCASTS" ? "noopener noreferrer" : undefined}
-                                className="font-extrabold text-sm tracking-widest text-zinc-900 whitespace-nowrap uppercase hover:text-red-700 cursor-pointer"
-                            >
-                                {item.label}
-                            </a>
-                        ))}
+                {/* Mobile View: Infinite Ticker with Scroll Control */}
+                <div className="flex md:hidden overflow-x-auto py-3 no-scrollbar group">
+                    <div className="flex min-w-full animate-marquee group-hover:paused group-focus:paused">
+                        {/* First set of items */}
+                        <div className="flex items-center gap-8 px-4">
+                            {navItems.map((item) => (
+                                <a
+                                    key={item.label}
+                                    href={item.href}
+                                    target={item.label === "PODCASTS" ? "_blank" : undefined}
+                                    rel={item.label === "PODCASTS" ? "noopener noreferrer" : undefined}
+                                    className="font-extrabold text-sm tracking-widest text-zinc-900 whitespace-nowrap uppercase hover:text-red-700 cursor-pointer"
+                                >
+                                    {item.label}
+                                </a>
+                            ))}
+                        </div>
+                        {/* Duplicate set for seamless loop */}
+                        <div className="flex items-center gap-8 px-4">
+                            {navItems.map((item) => (
+                                <a
+                                    key={`${item.label}-duplicate`}
+                                    href={item.href}
+                                    target={item.label === "PODCASTS" ? "_blank" : undefined}
+                                    rel={item.label === "PODCASTS" ? "noopener noreferrer" : undefined}
+                                    className="font-extrabold text-sm tracking-widest text-zinc-900 whitespace-nowrap uppercase hover:text-red-700 cursor-pointer"
+                                >
+                                    {item.label}
+                                </a>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

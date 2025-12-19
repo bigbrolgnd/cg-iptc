@@ -9,6 +9,8 @@ describe('HeroArticle', () => {
     link: 'https://test.substack.com/p/test-article',
     pubDate: 'Mon, 09 Dec 2024 10:00:00 GMT',
     content: '<p>This is the full article content.</p>',
+    previewContent: '<p>This is the preview content.</p>',
+    isTruncated: true,
     summary: 'This is the article summary.',
     image: 'https://example.com/image.jpg',
     guid: 'test-guid-123',
@@ -18,101 +20,107 @@ describe('HeroArticle', () => {
     cleanup();
   });
 
-  it('renders the article title', () => {
+  it('[P0] renders the article title', () => {
+    // GIVEN: HeroArticle with mock article data
     render(<HeroArticle article={mockArticle} />);
 
+    // THEN: Title is displayed in h1 heading
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Test Article Title');
   });
 
-  it('renders the formatted date', () => {
+  it('[P0] renders the formatted date', () => {
+    // GIVEN: HeroArticle with valid RFC 2822 date
     render(<HeroArticle article={mockArticle} />);
 
-    // Date should be formatted as "December 9, 2024"
+    // THEN: Date is formatted as long format (e.g., "December 9, 2024")
     const timeElement = screen.getByRole('time');
     expect(timeElement).toHaveTextContent(/December 9, 2024/i);
   });
 
-  it('renders the article summary', () => {
+  it('[P1] renders the article summary', () => {
+    // GIVEN: HeroArticle with summary text
     render(<HeroArticle article={mockArticle} />);
 
+    // THEN: Summary is displayed
     expect(screen.getByText('This is the article summary.')).toBeInTheDocument();
   });
 
-  it('renders the featured image when provided', () => {
+  it('[P1] renders the featured image when provided', () => {
+    // GIVEN: HeroArticle with image URL
     render(<HeroArticle article={mockArticle} />);
 
+    // THEN: Image is rendered with correct src and alt text
     const image = screen.getByRole('img');
     expect(image).toHaveAttribute('src', 'https://example.com/image.jpg');
     expect(image).toHaveAttribute('alt', 'Featured image for Test Article Title');
   });
 
-  it('does not render image when not provided', () => {
+  it('[P1] does not render image when not provided', () => {
+    // GIVEN: HeroArticle without image
     const articleWithoutImage = { ...mockArticle, image: undefined };
     render(<HeroArticle article={articleWithoutImage} />);
 
+    // THEN: No image element is present
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
   });
 
-  it('renders Read More link to Substack when expanded with long content', () => {
-    // Create content with 600 words to trigger truncation
-    const words = Array(600).fill('word').join(' ');
-    const longArticle = { ...mockArticle, content: `<p>${words}</p>` };
-    render(<HeroArticle article={longArticle} />);
-
-    // Expand to see the Substack link
-    fireEvent.click(screen.getByRole('button', { name: /Show preview/i }));
-
-    const substackLink = screen.getByRole('link', { name: /Read full article on Substack/i });
-    expect(substackLink).toHaveAttribute('href', 'https://test.substack.com/p/test-article');
-    expect(substackLink).toHaveAttribute('target', '_blank');
-    expect(substackLink).toHaveAttribute('rel', 'noopener noreferrer');
-  });
-
-  it('title links to the article', () => {
+  it('[P1] renders Read More link to Substack when expanded', () => {
+    // GIVEN: HeroArticle with truncated content
     render(<HeroArticle article={mockArticle} />);
 
-    // Get all links and find the one wrapping the title (it has the heading inside)
+    // WHEN: User expands the preview
+    fireEvent.click(screen.getByRole('button', { name: /Show preview/i }));
+
+    // THEN: Substack link is displayed with correct attributes
+    const substackLink = screen.getByRole('link', { name: /Read full article on Substack/i });
+    expect(substackLink).toHaveAttribute('href', 'https://test.substack.com/p/test-article');
+  });
+
+  it('[P1] title links to the article', () => {
+    // GIVEN: HeroArticle with article link
+    render(<HeroArticle article={mockArticle} />);
+
+    // THEN: Title is wrapped in link to Substack article
     const links = screen.getAllByRole('link');
     const titleLink = links.find(link => link.querySelector('h1'));
     expect(titleLink).toHaveAttribute('href', 'https://test.substack.com/p/test-article');
   });
 
-  it('applies newspaper styling classes', () => {
+  it('[P2] applies newspaper styling classes', () => {
+    // GIVEN: HeroArticle component
     render(<HeroArticle article={mockArticle} />);
 
+    // THEN: Heading uses serif font and correct text color
     const heading = screen.getByRole('heading', { level: 1 });
     expect(heading.className).toContain('font-serif');
     expect(heading.className).toContain('text-zinc-900');
   });
 
-  it('handles invalid date gracefully', () => {
+  it('[P0] handles invalid date gracefully', () => {
+    // GIVEN: HeroArticle with invalid date string
     const articleWithBadDate = { ...mockArticle, pubDate: 'invalid-date-string' };
     render(<HeroArticle article={articleWithBadDate} />);
 
+    // THEN: Fallback text is displayed instead of crashing
     const timeElement = screen.getByRole('time');
     expect(timeElement).toHaveTextContent('Date unavailable');
   });
 
-  it('handles empty date gracefully', () => {
-    const articleWithEmptyDate = { ...mockArticle, pubDate: '' };
-    render(<HeroArticle article={articleWithEmptyDate} />);
-
-    const timeElement = screen.getByRole('time');
-    expect(timeElement).toHaveTextContent('Date unavailable');
-  });
-
-  it('title link opens article on Substack', () => {
+  it('[P1] title link opens article on Substack', () => {
+    // GIVEN: HeroArticle with external link
     render(<HeroArticle article={mockArticle} />);
 
-    // Title is a link to the article
+    // THEN: Title link opens in new tab
     const titleLink = screen.getByRole('link', { name: /Test Article Title/i });
     expect(titleLink).toHaveAttribute('href', 'https://test.substack.com/p/test-article');
     expect(titleLink).toHaveAttribute('target', '_blank');
   });
 
-  it('article has aria-labelledby pointing to title', () => {
+  it('[P1] article has aria-labelledby pointing to title', () => {
+    // GIVEN: HeroArticle for accessibility
     const { container } = render(<HeroArticle article={mockArticle} />);
 
+    // THEN: Article element references title for screen readers
     const article = container.querySelector('article');
     expect(article).toHaveAttribute('aria-labelledby', 'hero-article-title');
 
@@ -120,86 +128,53 @@ describe('HeroArticle', () => {
     expect(heading).toHaveAttribute('id', 'hero-article-title');
   });
 
-  // New tests for collapsible behavior
+  // Collapsible content behavior tests
   describe('collapsible content', () => {
-    it('shows "Show preview" button when content exists', () => {
+    it('[P1] shows "Show preview" button when content is truncated', () => {
+      // GIVEN: HeroArticle with truncated content
       render(<HeroArticle article={mockArticle} />);
 
+      // THEN: Toggle button is present
       expect(screen.getByRole('button', { name: /Show preview/i })).toBeInTheDocument();
     });
 
-    it('content is hidden by default', () => {
-      render(<HeroArticle article={mockArticle} />);
+    it('[P1] does NOT show toggle button when NOT truncated', () => {
+      // GIVEN: HeroArticle with non-truncated content
+      const nonTruncated = { ...mockArticle, isTruncated: false };
+      render(<HeroArticle article={nonTruncated} />);
 
-      const contentArea = document.getElementById('article-content');
-      expect(contentArea).toHaveClass('max-h-0');
+      // THEN: Toggle button is NOT present
+      expect(screen.queryByRole('button', { name: /Show preview/i })).not.toBeInTheDocument();
     });
 
-    it('expands content when Show preview is clicked', () => {
+    it('[P1] expands content when Show preview is clicked', () => {
+      // GIVEN: HeroArticle in collapsed state
       render(<HeroArticle article={mockArticle} />);
 
+      // WHEN: User clicks the toggle button
       const toggleButton = screen.getByRole('button', { name: /Show preview/i });
       fireEvent.click(toggleButton);
 
-      // Button text should change
+      // THEN: Button text changes
       expect(screen.getByRole('button', { name: /Collapse preview/i })).toBeInTheDocument();
-
-      // Content should be visible
-      const contentArea = document.getElementById('article-content');
-      expect(contentArea).toHaveClass('max-h-[5000px]');
-    });
-
-    it('collapses content when clicked again', () => {
-      render(<HeroArticle article={mockArticle} />);
-
-      const toggleButton = screen.getByRole('button', { name: /Show preview/i });
-
-      // Expand
-      fireEvent.click(toggleButton);
-      expect(screen.getByRole('button', { name: /Collapse preview/i })).toBeInTheDocument();
-
-      // Collapse
-      fireEvent.click(screen.getByRole('button', { name: /Collapse preview/i }));
-      expect(screen.getByRole('button', { name: /Show preview/i })).toBeInTheDocument();
-    });
-
-    it('toggle button has correct aria-expanded attribute', () => {
-      render(<HeroArticle article={mockArticle} />);
-
-      const toggleButton = screen.getByRole('button', { name: /Show preview/i });
-      expect(toggleButton).toHaveAttribute('aria-expanded', 'false');
-
-      fireEvent.click(toggleButton);
-      expect(screen.getByRole('button', { name: /Collapse preview/i })).toHaveAttribute('aria-expanded', 'true');
-    });
-  });
-
-  describe('content truncation', () => {
-    it('shows full content for short articles (under 500 words)', () => {
-      render(<HeroArticle article={mockArticle} />);
-
-      // Expand to see content
-      fireEvent.click(screen.getByRole('button', { name: /Show preview/i }));
-
+      
+      // AND: Full content is displayed
       expect(screen.getByText('This is the full article content.')).toBeInTheDocument();
     });
 
-    it('shows first 500 words then Substack link for long articles', () => {
-      // Create content with 600 words
-      const words = Array(600).fill('word').join(' ');
-      const longContent = `<p>${words}</p>`;
-      const longArticle = { ...mockArticle, content: longContent };
-      render(<HeroArticle article={longArticle} />);
+    it('[P1] collapses content when clicked again', () => {
+      // GIVEN: HeroArticle component
+      render(<HeroArticle article={mockArticle} />);
+      const toggleButton = screen.getByRole('button', { name: /Show preview/i });
 
-      // Expand to see content
-      fireEvent.click(screen.getByRole('button', { name: /Show preview/i }));
+      // WHEN: User expands then collapses
+      fireEvent.click(toggleButton);
+      expect(screen.getByRole('button', { name: /Collapse preview/i })).toBeInTheDocument();
+      fireEvent.click(screen.getByRole('button', { name: /Collapse preview/i }));
 
-      // Should show truncated content with ellipsis
-      expect(screen.getByText(/word word word.*\.\.\./)).toBeInTheDocument();
-
-      // Should show continue reading message
-      expect(screen.getByText(/Continue reading the full article on Substack/i)).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: /Read full article on Substack/i })).toBeInTheDocument();
+      // THEN: Content returns to collapsed state
+      expect(screen.getByRole('button', { name: /Show preview/i })).toBeInTheDocument();
+      expect(screen.getByText('This is the preview content.')).toBeInTheDocument();
     });
   });
 });

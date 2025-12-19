@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useRef, useCallback } from "react";
 import Link from "next/link";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { EmptyState } from "@/components/feed/EmptyState";
-import { PdfViewer } from "@/components/features/PdfViewer";
+import { ExhibitionViewer } from "@/components/features/ExhibitionViewer";
 import type { Exhibition, ExhibitionAsset } from "@/lib/exhibitions-data";
 import { cn } from "@/lib/utils";
 import { FileText, Image, ArrowLeft, ChevronRight } from "lucide-react";
@@ -14,12 +13,65 @@ interface ExhibitionDetailViewProps {
 }
 
 export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) {
-  const [selectedAsset, setSelectedAsset] = useState<ExhibitionAsset | null>(null);
+  const [viewerState, setViewerState] = useState<{
+    isOpen: boolean;
+    assetIndex: number;
+  } | null>(null);
   const [activeSeriesId, setActiveSeriesId] = useState<string | null>(null);
+  const scrollPositionRef = useRef(0);
 
-  // Currently viewing asset info
-  const viewerUrl = selectedAsset?.assetUrl || null;
-  const viewerType = selectedAsset?.assetType || 'pdf';
+  // Create flat list of all navigable assets
+  const allAssets = useMemo(() => {
+    const assets: ExhibitionAsset[] = [];
+
+    // Add curatorial statements first
+    exhibition.curatorialStatements.forEach((stmt) => {
+      assets.push({
+        id: stmt.id,
+        title: stmt.title,
+        description: stmt.description,
+        assetUrl: stmt.pdfUrl,
+        assetType: 'pdf',
+      });
+    });
+
+    // Add all series assets
+    exhibition.series.forEach((series) => {
+      series.assets.forEach((asset) => {
+        assets.push(asset);
+      });
+    });
+
+    return assets;
+  }, [exhibition]);
+
+  // Open viewer for a specific asset
+  const openViewer = useCallback((assetId: string) => {
+    const index = allAssets.findIndex((a) => a.id === assetId);
+    if (index !== -1) {
+      scrollPositionRef.current = window.scrollY;
+      setViewerState({ isOpen: true, assetIndex: index });
+    }
+  }, [allAssets]);
+
+  // Navigate within viewer
+  const navigateViewer = useCallback((newIndex: number) => {
+    if (newIndex >= 0 && newIndex < allAssets.length) {
+      setViewerState({ isOpen: true, assetIndex: newIndex });
+    }
+  }, [allAssets.length]);
+
+  // Close viewer
+  const closeViewer = useCallback(() => {
+    setViewerState(null);
+    // Restore scroll position after modal closes
+    requestAnimationFrame(() => {
+      window.scrollTo(0, scrollPositionRef.current);
+    });
+  }, []);
+
+  // Get currently selected asset for highlighting
+  const selectedAssetId = viewerState ? allAssets[viewerState.assetIndex]?.id : null;
 
   return (
     <div className="pt-6 pb-12 px-4">
@@ -54,35 +106,6 @@ export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) 
           )}
         </header>
 
-        {/* Asset Viewer */}
-        {selectedAsset && (
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-zinc-900">{selectedAsset.title}</h3>
-              <button
-                onClick={() => setSelectedAsset(null)}
-                className="text-sm text-zinc-500 hover:text-zinc-900 transition-colors"
-              >
-                Close viewer
-              </button>
-            </div>
-            <ErrorBoundary
-              fallback={
-                <EmptyState
-                  title="Something went wrong"
-                  message="We couldn't load the exhibition content. Please try refreshing."
-                />
-              }
-            >
-              <PdfViewer
-                key={viewerUrl}
-                pdfUrl={viewerUrl || ''}
-                assetType={viewerType}
-              />
-            </ErrorBoundary>
-          </div>
-        )}
-
         {/* Curatorial Statements Section */}
         <section className="mb-10">
           <h2 className="font-serif text-xl font-bold text-zinc-900 mb-4 flex items-center gap-2">
@@ -93,16 +116,10 @@ export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) 
             {exhibition.curatorialStatements.map((statement) => (
               <button
                 key={statement.id}
-                onClick={() => setSelectedAsset({
-                  id: statement.id,
-                  title: statement.title,
-                  description: statement.description,
-                  assetUrl: statement.pdfUrl,
-                  assetType: 'pdf'
-                })}
+                onClick={() => openViewer(statement.id)}
                 className={cn(
                   "text-left p-5 rounded-xl border transition-all duration-200 group",
-                  selectedAsset?.id === statement.id
+                  selectedAssetId === statement.id
                     ? "bg-zinc-900 text-white border-zinc-900"
                     : "bg-white border-zinc-200 hover:border-zinc-400 hover:shadow-md"
                 )}
@@ -111,7 +128,7 @@ export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) 
                   <FileText
                     className={cn(
                       "w-5 h-5 flex-shrink-0 mt-0.5",
-                      selectedAsset?.id === statement.id
+                      selectedAssetId === statement.id
                         ? "text-zinc-300"
                         : "text-zinc-400 group-hover:text-zinc-600"
                     )}
@@ -120,7 +137,7 @@ export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) 
                     <h3
                       className={cn(
                         "font-semibold mb-1",
-                        selectedAsset?.id === statement.id
+                        selectedAssetId === statement.id
                           ? "text-white"
                           : "text-zinc-900"
                       )}
@@ -130,7 +147,7 @@ export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) 
                     <p
                       className={cn(
                         "text-sm",
-                        selectedAsset?.id === statement.id
+                        selectedAssetId === statement.id
                           ? "text-zinc-300"
                           : "text-zinc-500"
                       )}
@@ -182,10 +199,10 @@ export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) 
                   {series.assets.map((asset) => (
                     <button
                       key={asset.id}
-                      onClick={() => setSelectedAsset(asset)}
+                      onClick={() => openViewer(asset.id)}
                       className={cn(
                         "text-left p-4 rounded-lg border transition-all duration-200 group",
-                        selectedAsset?.id === asset.id
+                        selectedAssetId === asset.id
                           ? "bg-zinc-900 text-white border-zinc-900"
                           : "bg-white border-zinc-200 hover:border-zinc-400 hover:shadow-sm"
                       )}
@@ -195,7 +212,7 @@ export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) 
                           <FileText
                             className={cn(
                               "w-5 h-5 flex-shrink-0",
-                              selectedAsset?.id === asset.id
+                              selectedAssetId === asset.id
                                 ? "text-zinc-300"
                                 : "text-red-500"
                             )}
@@ -204,7 +221,7 @@ export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) 
                           <Image
                             className={cn(
                               "w-5 h-5 flex-shrink-0",
-                              selectedAsset?.id === asset.id
+                              selectedAssetId === asset.id
                                 ? "text-zinc-300"
                                 : "text-blue-500"
                             )}
@@ -214,7 +231,7 @@ export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) 
                           <h4
                             className={cn(
                               "font-medium text-sm truncate",
-                              selectedAsset?.id === asset.id
+                              selectedAssetId === asset.id
                                 ? "text-white"
                                 : "text-zinc-900"
                             )}
@@ -225,7 +242,7 @@ export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) 
                             <p
                               className={cn(
                                 "text-xs mt-1 line-clamp-2",
-                                selectedAsset?.id === asset.id
+                                selectedAssetId === asset.id
                                   ? "text-zinc-300"
                                   : "text-zinc-500"
                               )}
@@ -236,7 +253,7 @@ export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) 
                           <span
                             className={cn(
                               "inline-block text-xs mt-2 px-2 py-0.5 rounded-full",
-                              selectedAsset?.id === asset.id
+                              selectedAssetId === asset.id
                                 ? "bg-zinc-800 text-zinc-300"
                                 : asset.assetType === 'pdf'
                                   ? "bg-red-50 text-red-600"
@@ -255,6 +272,32 @@ export function ExhibitionDetailView({ exhibition }: ExhibitionDetailViewProps) 
           ))}
         </section>
       </div>
+
+      {/* Full-screen Viewer Modal */}
+      {viewerState && (
+        <ErrorBoundary
+          fallback={
+            <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center">
+              <div className="text-center text-white p-8">
+                <p className="font-semibold mb-2">Something went wrong</p>
+                <button
+                  onClick={closeViewer}
+                  className="text-white/70 hover:text-white underline"
+                >
+                  Close viewer
+                </button>
+              </div>
+            </div>
+          }
+        >
+          <ExhibitionViewer
+            assets={allAssets}
+            selectedIndex={viewerState.assetIndex}
+            onClose={closeViewer}
+            onNavigate={navigateViewer}
+          />
+        </ErrorBoundary>
+      )}
     </div>
   );
 }

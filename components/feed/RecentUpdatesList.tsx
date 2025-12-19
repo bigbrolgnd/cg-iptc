@@ -15,16 +15,28 @@ export function RecentUpdatesList({ articles }: RecentUpdatesListProps) {
             <h3 className="font-bold uppercase tracking-widest text-xs text-zinc-500 border-b border-zinc-200 pb-2 mb-2">
                 Recent Updates
             </h3>
-            {articles.map((article) => (
-                <article key={article.guid} className="flex flex-col gap-1 group">
-                    <Link href={article.link} target="_blank" className="font-serif font-bold text-lg leading-tight group-hover:text-red-700 transition-colors cursor-pointer">
-                        {article.title}
-                    </Link>
-                    <time className="text-xs text-zinc-400 font-mono">
-                        {new Date(article.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                    </time>
-                </article>
-            ))}
+            {articles.map((article) => {
+                let formattedDate = 'Recent';
+                try {
+                    const date = new Date(article.pubDate);
+                    if (!isNaN(date.getTime())) {
+                        formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    }
+                } catch (e) {
+                    console.error('Invalid date for article:', article.title, article.pubDate);
+                }
+
+                return (
+                    <article key={article.guid} className="flex flex-col gap-1 group">
+                        <Link href={article.link} target="_blank" className="font-serif font-bold text-lg leading-tight group-hover:text-red-700 transition-colors cursor-pointer">
+                            {article.title}
+                        </Link>
+                        <time className="text-xs text-zinc-400 font-mono">
+                            {formattedDate}
+                        </time>
+                    </article>
+                );
+            })}
         </div>
     );
 }

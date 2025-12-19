@@ -91,6 +91,9 @@ export function parseSubstackFeed(xml: string): SubstackFeed {
         // Clean Substack-specific boilerplate
         const cleanedContent = cleanSubstackContent(sanitizedContent);
 
+        // Generate preview content
+        const { html: previewContent, isTruncated } = truncateHtmlByWords(cleanedContent, 500);
+
         // Extract image from enclosure if available
         const enclosure = item.querySelector('enclosure');
         let image = enclosure?.getAttribute('url') || undefined;
@@ -108,6 +111,8 @@ export function parseSubstackFeed(xml: string): SubstackFeed {
             link: itemLink,
             pubDate,
             content: cleanedContent,
+            previewContent,
+            isTruncated,
             summary: description, // Keep raw description as summary
             image,
             guid,
@@ -120,6 +125,68 @@ export function parseSubstackFeed(xml: string): SubstackFeed {
         items,
         lastBuildDate,
     };
+}
+
+/**
+ * Truncates HTML content to approximately the specified number of words
+ * while preserving HTML structure.
+ */
+function truncateHtmlByWords(html: string, wordLimit: number): { html: string; isTruncated: boolean } {
+    if (!html) return { html: '', isTruncated: false };
+
+    const dom = new JSDOM(html);
+    const doc = dom.window.document;
+    const body = doc.body;
+
+    const plainText = body.textContent || '';
+    const words = plainText.split(/\s+/).filter(w => w.length > 0);
+
+    if (words.length <= wordLimit) {
+        return { html, isTruncated: false };
+    }
+
+    let wordCount = 0;
+    let truncated = false;
+
+    function walkAndTruncate(node: Node): boolean {
+        if (truncated) return false;
+
+        if (node.nodeType === 3) { // Node.TEXT_NODE
+            const text = node.textContent || '';
+            const nodeWords = text.split(/\s+/).filter(w => w.length > 0);
+
+            if (wordCount + nodeWords.length > wordLimit) {
+                const remainingWords = wordLimit - wordCount;
+                const truncatedWords = nodeWords.slice(0, remainingWords);
+                node.textContent = truncatedWords.join(' ') + '...';
+                truncated = true;
+                return false;
+            }
+
+            wordCount += nodeWords.length;
+            return true;
+        }
+
+        if (node.nodeType === 1) { // Node.ELEMENT_NODE
+            const children = Array.from(node.childNodes);
+            for (const child of children) {
+                if (!walkAndTruncate(child)) {
+                    let sibling = child.nextSibling;
+                    while (sibling) {
+                        const next = sibling.nextSibling;
+                        sibling.parentNode?.removeChild(sibling);
+                        sibling = next;
+                    }
+                    break;
+                }
+            }
+        }
+
+        return !truncated;
+    }
+
+    walkAndTruncate(body);
+    return { html: body.innerHTML, isTruncated: true };
 }
 
 /**

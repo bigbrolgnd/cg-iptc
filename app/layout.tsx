@@ -1,6 +1,32 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Source_Serif_4, Inter, Spectral_SC, Lexend_Deca, Oswald } from "next/font/google";
 import "./globals.css";
+
+/**
+ * Inline script to handle chunk load failures gracefully.
+ * When a deployment changes chunk hashes, users with stale cached HTML
+ * will fail to load the new chunks. This script detects such failures
+ * and automatically refreshes the page to get the latest HTML.
+ */
+const chunkErrorRecoveryScript = `
+(function() {
+  var hasReloaded = sessionStorage.getItem('chunk-reload');
+  window.addEventListener('error', function(e) {
+    var target = e.target;
+    if (target && target.tagName === 'SCRIPT' && target.src && target.src.includes('/_next/')) {
+      if (!hasReloaded) {
+        sessionStorage.setItem('chunk-reload', '1');
+        window.location.reload();
+      }
+    }
+  }, true);
+  // Clear the reload flag after successful page load
+  window.addEventListener('load', function() {
+    setTimeout(function() { sessionStorage.removeItem('chunk-reload'); }, 5000);
+  });
+})();
+`;
 
 const sourceSerif = Source_Serif_4({
   variable: "--font-serif",
@@ -83,6 +109,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Chunk error recovery - auto-refresh on stale cache */}
+        <Script
+          id="chunk-error-recovery"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: chunkErrorRecoveryScript }}
+        />
+      </head>
       <body
         className={`${sourceSerif.variable} ${inter.variable} ${spectralSC.variable} ${lexendDeca.variable} ${oswald.variable} font-sans antialiased bg-white text-zinc-900`}
       >
