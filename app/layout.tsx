@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://cg-iptc.org"),
   title: {
     template: "%s | Clay-Gilmore Institute",
-    default: "Clay-Gilmore Institute for Philosophy, Technology, and Counterinsurgency",
+    default: "Clay-Gilmore Institute",
   },
   description: "Research, analysis, and discourse on anticolonial thought, philosophy, and technology.",
   icons: {

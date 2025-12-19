@@ -79,3 +79,4 @@ As a site visitor and administrator, I want the website to have professional SEO
 
 ## Change Log
 - 2025-12-19: Migrated assets, updated metadata, added Footer (Brotherlegend)
+- 2025-12-19: Fixed OG image override and shortened SEO titles (Brotherlegend)
