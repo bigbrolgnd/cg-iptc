@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { SubstackItem } from '@/types/substack';
 import { formatDateLong } from '@/lib/utils';
 import { ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
+import { ImageModal } from '@/components/ui/ImageModal';
 
 interface HeroArticleProps {
   article: SubstackItem;
@@ -107,6 +108,7 @@ function truncateHtmlByWords(html: string, wordLimit: number): { html: string; i
 export function HeroArticle({ article }: HeroArticleProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const formattedDate = formatDateLong(article.pubDate);
 
   useEffect(() => {
@@ -126,6 +128,15 @@ export function HeroArticle({ article }: HeroArticleProps) {
     // Client-side: perform actual DOM-based truncation
     return truncateHtmlByWords(article.content || '', WORD_PREVIEW_LIMIT);
   }, [article.content, isMounted]);
+
+  const handleContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.tagName === 'IMG') {
+      e.preventDefault();
+      const img = target as HTMLImageElement;
+      setSelectedImage(img.src);
+    }
+  };
 
   return (
     <article
@@ -158,9 +169,10 @@ export function HeroArticle({ article }: HeroArticleProps) {
             <img
               src={article.image}
               alt={`Featured image for ${article.title}`}
-              className="w-full max-w-xl mx-auto h-auto rounded-lg border border-zinc-200 shadow-sm"
+              className="w-full max-w-xl mx-auto h-auto rounded-lg border border-zinc-200 shadow-sm cursor-zoom-in hover:opacity-95 transition-opacity"
               loading="eager"
               fetchPriority="high"
+              onClick={() => setSelectedImage(article.image || null)}
             />
           </div>
         </div>
@@ -205,8 +217,10 @@ export function HeroArticle({ article }: HeroArticleProps) {
                          prose-p:my-6 prose-p:leading-relaxed
                          prose-headings:mt-10 prose-headings:mb-6 prose-headings:text-zinc-900
                          [&_p:empty]:min-h-[1.5em] [&_p:empty]:my-4
-                         [&_p+p]:mt-6 [&_br]:block [&_br]:my-4"
+                         [&_p+p]:mt-6 [&_br]:block [&_br]:my-4
+                         [&_img]:cursor-zoom-in"
               dangerouslySetInnerHTML={{ __html: previewHtml }}
+              onClick={handleContentClick}
             />
 
             {/* Continue Reading CTA - shown when expanded */}
@@ -252,6 +266,11 @@ export function HeroArticle({ article }: HeroArticleProps) {
         </div>
       )}
 
+      <ImageModal
+        src={selectedImage}
+        isOpen={!!selectedImage}
+        onClose={() => setSelectedImage(null)}
+      />
     </article>
   );
 }
