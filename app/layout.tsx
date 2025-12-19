@@ -90,6 +90,9 @@ export const metadata: Metadata = {
       },
     ],
   },
+  facebook: {
+    appId: "123456789", // Placeholder, user needs to provide real ID if they have one, or we can omit/use a dummy if strictly required by a tool but ignored by FB without valid auth
+  },
   twitter: {
     card: "summary_large_image",
     title: "Clay-Gilmore Institute",
